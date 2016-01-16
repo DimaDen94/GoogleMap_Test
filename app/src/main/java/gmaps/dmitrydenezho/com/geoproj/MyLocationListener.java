@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import java.util.Date;
 
+import gmaps.dmitrydenezho.com.geoproj.fragments.One;
+
 /**
  * Created by Dmitry on 16.01.2016.
  */
@@ -45,11 +47,11 @@ public class MyLocationListener implements LocationListener {
         if (location == null)
             return;
         if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-            MainActivity.longitude = location.getLongitude();
-            MainActivity.latitude = location.getLatitude();
+            One.longitude = location.getLongitude();
+            One.latitude = location.getLatitude();
         } else if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
-            MainActivity.longitude = location.getLongitude();
-            MainActivity.latitude = location.getLatitude();
+            One.longitude = location.getLongitude();
+            One.latitude = location.getLatitude();
 
         }
     }

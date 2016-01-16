@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primery">#1565C0</color>
+    <color name="primeryDark">#1565C0</color>
+    <color name="backGround">#7a7a7a</color>
+    <color name="color_white">#ffffff</color>
+    <color name="btn">#1DE9B6</color>
+    <color name="btnClick">#00BFA5</color>
+    <color name="back">#42A5F5</color>
+
+</resources>

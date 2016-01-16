@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import gmaps.dmitrydenezho.com.geoproj.DBHelper;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.MyLocationListener;
+import gmaps.dmitrydenezho.com.geoproj.fragments.One;
 
 /**
  * Created by Dmitry on 15.01.2016.
@@ -25,9 +26,6 @@ import gmaps.dmitrydenezho.com.geoproj.MyLocationListener;
 public class ImageLoaderGallery extends AdapterLoader {
     ContentResolver resolver;
 
-    Double latitude;
-    Double longitude;
-    Long date;
 
 
     public ImageLoaderGallery(ImageView bmImage, ContentResolver resolver, Context context) {
@@ -59,9 +57,9 @@ public class ImageLoaderGallery extends AdapterLoader {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Log.d("mylog", "DB подключена");
 
-            cv.put("lat", MainActivity.getLongitude());
-            cv.put("long", MainActivity.getLatitude());
-            cv.put("thisDate", String.valueOf(MainActivity.getDate()));
+            cv.put("lat", One.getLongitude());
+            cv.put("long", One.getLatitude());
+            cv.put("thisDate", String.valueOf(One.getDate()));
 
             cv.put("photo", arr);
             Log.d("mylog", "Загружено фото в DB");

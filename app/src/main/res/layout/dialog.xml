@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_url_for_dialog"
+        android:id="@+id/tv_dialog_url"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_dialog_url"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="15sp"
+        android:inputType="textUri"/>
+
+    <Button
+        android:layout_width="200sp"
+        android:layout_height="wrap_content"
+        android:text="готово"
+        android:id="@+id/btn_dialog_ready"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15sp" />
+</LinearLayout>

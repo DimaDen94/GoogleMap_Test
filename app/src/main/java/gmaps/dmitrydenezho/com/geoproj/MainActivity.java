@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(imgPickerIntent, GALLERY_REQUEST);
                 break;
             case R.id.btn_urly:
-
+                dialog.show(getFragmentManager(),"URL");
                 break;
         }
     }

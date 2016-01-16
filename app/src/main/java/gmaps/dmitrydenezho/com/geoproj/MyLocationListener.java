@@ -5,7 +5,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import java.util.Date;
 
@@ -16,14 +15,17 @@ public class MyLocationListener implements LocationListener {
     Context context;
     LocationManager locationManager;
 
+
     public MyLocationListener(Context context, LocationManager locationManager) {
         this.context = context;
         this.locationManager = locationManager;
+
     }
 
     @Override
     public void onLocationChanged(Location location) {
         showLocation(location);
+
     }
 
     @Override
@@ -43,10 +45,11 @@ public class MyLocationListener implements LocationListener {
         if (location == null)
             return;
         if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-
-            MainActivity.getTvloc().setText(formatLocation(location));
+            MainActivity.longitude = location.getLongitude();
+            MainActivity.latitude = location.getLatitude();
         } else if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
-            MainActivity.getTvloc().setText(formatLocation(location));
+            MainActivity.longitude = location.getLongitude();
+            MainActivity.latitude = location.getLatitude();
 
         }
     }
@@ -59,4 +62,5 @@ public class MyLocationListener implements LocationListener {
                 location.getLatitude(), location.getLongitude(), new Date(
                         location.getTime()));
     }
+
 }

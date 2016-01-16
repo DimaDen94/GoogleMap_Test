@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.app.DialogFragment;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import gmaps.dmitrydenezho.com.geoproj.Loaders.ImageLoaderGallery;
@@ -29,40 +31,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView imageView;
     Context context;
     LocationManager locationManager;
-    TextView tv;
-    static TextView tvloc;
 
+
+    static Double latitude;
+    static Double longitude;
+
+    TextView tvLat;
+
+    TextView tvLon;
+    TextView tvDate;
+    DateFormat dateFormat;
+    static Date date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         btnForGallery = (Button) findViewById(R.id.btn_gallery);
         btnForGallery.setOnClickListener(this);
 
-        btnForURL = (Button) findViewById(R.id.btn_urly);
+        btnForURL = (Button) findViewById(R.id.btn_url);
         btnForURL.setOnClickListener(this);
         context = getApplicationContext();
 
         dialog = new DialogForURL();
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        tvloc = (TextView) findViewById(R.id.tvLocationNet);
 
+        tvLat = (TextView) findViewById(R.id.tvLocationLatitude);
+        tvLon = (TextView) findViewById(R.id.tvLocationLongitude);
+        tvDate= (TextView) findViewById(R.id.tvLocationData);
+
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        date = new Date();
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
-
-
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000 * 10, 10, locationListener);
         locationManager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER, 1000 * 10, 10,
                 locationListener);
-
+        init();
     }
 
 
@@ -72,30 +84,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         locationManager.removeUpdates(locationListener);
     }
 
-    public  static TextView getTvloc() {
-        return tvloc;
-    }
 
     LocationListener locationListener = new MyLocationListener(context,locationManager);
 
 
-
     @Override
     public void onClick(View v) {
+        init();
         switch (v.getId()){
             case R.id.btn_gallery:
                 Intent imgPickerIntent = new Intent(Intent.ACTION_PICK);
                 imgPickerIntent.setType("image/*");
                 startActivityForResult(imgPickerIntent, GALLERY_REQUEST);
                 break;
-            case R.id.btn_urly:
-                dialog.show(getFragmentManager(), "URL");
-                break;
-            case R.id.button:
-
+            case R.id.btn_url:
+                dialog.show(getFragmentManager(),"Dialog");
                 break;
         }
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
@@ -111,4 +118,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void init(){
+        tvLat.setText("Широта = " + latitude);
+        tvLon.setText("Долгота =" + longitude);
+        tvDate.setText("Время :" + dateFormat.format(date));
+    }
+    public static Date getDate() {
+        return date;
+    }
+
+    public static Double getLongitude() {
+        return longitude;
+    }
+
+    public static Double getLatitude() {
+        return latitude;
+    }
 }

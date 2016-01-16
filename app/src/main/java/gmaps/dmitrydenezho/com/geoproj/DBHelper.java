@@ -18,6 +18,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table photoDB("
                 + "id integer primary key autoincrement,"
+                + "lat double,"
+                + "long double,"
+                + "thisDate text,"
                 + "photo LONGBLOB" + ");");
 
     }

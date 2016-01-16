@@ -33,7 +33,8 @@ public class DialogForURL extends DialogFragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        new ImageLoaderURL((ImageView) getActivity().findViewById(R.id.img), context)
+                .execute(String.valueOf(et_dialog_url.getText()));
         dismiss();
     }
 

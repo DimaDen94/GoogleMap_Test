@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(requestCode) {
             case GALLERY_REQUEST:
                 if(resultCode == RESULT_OK){
-
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    new ImageLoaderGallery(imageView, getContentResolver(),context)
+                            .execute(String.valueOf(selectedImage));
                 }
         }
     }

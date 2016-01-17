@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import java.util.Date;
 
-import gmaps.dmitrydenezho.com.geoproj.fragments.One;
+import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentMark;
 
 /**
  * Created by Dmitry on 16.01.2016.
@@ -47,11 +47,11 @@ public class MyLocationListener implements LocationListener {
         if (location == null)
             return;
         if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-            One.longitude = location.getLongitude();
-            One.latitude = location.getLatitude();
+            FragmentMark.longitude = location.getLongitude();
+            FragmentMark.latitude = location.getLatitude();
         } else if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
-            One.longitude = location.getLongitude();
-            One.latitude = location.getLatitude();
+            FragmentMark.longitude = location.getLongitude();
+            FragmentMark.latitude = location.getLatitude();
 
         }
     }

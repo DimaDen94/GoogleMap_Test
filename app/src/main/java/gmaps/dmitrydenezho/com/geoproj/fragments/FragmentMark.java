@@ -28,7 +28,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
 /**
  * Created by Dmitry on 26.12.2015.
  */
-public class One extends AbstractTabFragment {
+public class FragmentMark extends AbstractTabFragment {
     static final int GALLERY_REQUEST = 1;
     Button btnForGallery;
     Button btnForURL;
@@ -48,14 +48,14 @@ public class One extends AbstractTabFragment {
     DateFormat dateFormat;
     static Date date;
 
-    private static final int LAYOUT = R.layout.first_fragment;
+    private static final int LAYOUT = R.layout.mark_fragment;
 
-    public static One getInstance(Context context) {
+    public static FragmentMark getInstance(Context context) {
         Bundle args = new Bundle();
-        One fragment = new One();
+        FragmentMark fragment = new FragmentMark();
         fragment.setArguments(args);
         fragment.setContext(context);
-        fragment.setTitle("one");
+        fragment.setTitle("mark");
         return fragment;
     }
         @Nullable

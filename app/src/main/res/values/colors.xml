@@ -7,5 +7,6 @@
     <color name="btn">#1DE9B6</color>
     <color name="btnClick">#00BFA5</color>
     <color name="back">#42A5F5</color>
+    <color name="distance">#f5db54</color>
 
 </resources>

@@ -9,8 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gmaps.dmitrydenezho.com.geoproj.fragments.AbstractTabFragment;
-import gmaps.dmitrydenezho.com.geoproj.fragments.One;
-import gmaps.dmitrydenezho.com.geoproj.fragments.Two;
+import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentList;
+import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentMark;
+import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentMap;
 
 
 public class TabPagerFragmentAdapter extends FragmentPagerAdapter {
@@ -22,8 +23,9 @@ public class TabPagerFragmentAdapter extends FragmentPagerAdapter {
         super(fm);
         this.context = context;
         tabs  = new HashMap<>();
-        tabs.put(0, One.getInstance(context));
-        tabs.put(1, Two.getInstance(context));
+        tabs.put(0, FragmentMark.getInstance(context));
+        tabs.put(1, FragmentMap.getInstance(context));
+        tabs.put(2, FragmentList.getInstance(context));
 
     }
 

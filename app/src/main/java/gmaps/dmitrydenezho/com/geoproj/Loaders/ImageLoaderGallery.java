@@ -11,7 +11,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import gmaps.dmitrydenezho.com.geoproj.DBHelper;
-import gmaps.dmitrydenezho.com.geoproj.fragments.One;
+import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentMark;
 
 /**
  * Created by Dmitry on 15.01.2016.
@@ -50,9 +50,9 @@ public class ImageLoaderGallery extends AdapterLoader {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Log.d("mylog", "DB подключена");
 
-            cv.put("lat", One.getLongitude());
-            cv.put("long", One.getLatitude());
-            cv.put("thisDate", String.valueOf(One.getDate()));
+            cv.put("lat", FragmentMark.getLongitude());
+            cv.put("long", FragmentMark.getLatitude());
+            cv.put("thisDate", String.valueOf(FragmentMark.getDate()));
 
             cv.put("photo", arr);
             Log.d("mylog", "Загружено фото в DB");

@@ -1,11 +1,8 @@
 package gmaps.dmitrydenezho.com.geoproj.Loaders;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;

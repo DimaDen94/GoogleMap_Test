@@ -1,10 +1,8 @@
 package gmaps.dmitrydenezho.com.geoproj;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by Dmitry on 15.01.2016.

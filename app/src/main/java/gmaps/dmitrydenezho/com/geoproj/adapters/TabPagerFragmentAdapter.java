@@ -1,4 +1,4 @@
-package gmaps.dmitrydenezho.com.geoproj.adapter;
+package gmaps.dmitrydenezho.com.geoproj.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

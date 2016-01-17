@@ -5,19 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
-
 import gmaps.dmitrydenezho.com.geoproj.DBHelper;
-import gmaps.dmitrydenezho.com.geoproj.MainActivity;
-import gmaps.dmitrydenezho.com.geoproj.MyLocationListener;
 import gmaps.dmitrydenezho.com.geoproj.fragments.One;
 
 /**

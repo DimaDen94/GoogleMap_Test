@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 
 import gmaps.dmitrydenezho.com.geoproj.R;
 
@@ -18,6 +22,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
  * Created by Dmitry on 26.12.2015.
  */
 public class Two extends AbstractTabFragment {
+    GoogleMap map;
 
 
     private static final int LAYOUT = R.layout.second_fragment;
@@ -27,7 +32,7 @@ public class Two extends AbstractTabFragment {
         Two fragment = new Two();
         fragment.setArguments(args);
         fragment.setContext(context);
-        fragment.setTitle("two");
+        fragment.setTitle("map");
         return fragment;
     }
     @Nullable
@@ -40,9 +45,21 @@ public class Two extends AbstractTabFragment {
     @Override
     public void onStart() {
         super.onStart();
-
+        createMapView();
 
     }
+    private void createMapView(){
+        try {
+            if(null==map){
+                map =((MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.mapView)).getMap();
+                if(map == null){
+                    Toast.makeText(context,"Ошибка",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }catch (Exception e){
 
+        }
+
+    }
 
 }

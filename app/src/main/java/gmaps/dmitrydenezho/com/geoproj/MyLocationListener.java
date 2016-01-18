@@ -56,13 +56,6 @@ public class MyLocationListener implements LocationListener {
         }
     }
 
-    private String formatLocation(Location location) {
-        if (location == null)
-            return "";
-        return String.format(
-                "Coordinates: lat = %1$.4f, lon = %2$.4f, time = %3$tF %3$tT",
-                location.getLatitude(), location.getLongitude(), new Date(
-                        location.getTime()));
-    }
+
 
 }

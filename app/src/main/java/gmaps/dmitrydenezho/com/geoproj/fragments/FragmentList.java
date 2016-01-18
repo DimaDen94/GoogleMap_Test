@@ -67,13 +67,32 @@ public class FragmentList extends AbstractTabFragment implements LoaderManager.L
         lvData.setAdapter(scAdapter);
         registerForContextMenu(lvData);
         getActivity().getSupportLoaderManager().initLoader(0, null, this);
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        // закрываем подключение при выходе
+        database.close();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, CM_DELETE_ID, 0, "удалить запись");
     }
+
 
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getItemId() == CM_DELETE_ID) {
@@ -87,24 +106,6 @@ public class FragmentList extends AbstractTabFragment implements LoaderManager.L
             return true;
         }
         return super.onContextItemSelected(item);
-    }
-@Override
-public void onResume() {
-    super.onResume();
-
-}
-
-
-    public void onDestroy() {
-        super.onDestroy();
-        // закрываем подключение при выходе
-        database.close();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
     }
 
     @Override
@@ -122,6 +123,7 @@ public void onResume() {
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
     static class MyCursorLoader extends CursorLoader {
 
         DB db;
@@ -138,15 +140,11 @@ public void onResume() {
                 int lat = cursor.getColumnIndex(DB.COLUMN_LAT);
                 int lon = cursor.getColumnIndex(DB.COLUMN_LON);
 
-                //int lon = Double.parseDouble(String.valueOf(cursor.getColumnIndex(DB.COLUMN_LON)));
                 do {
                     String l1 = cursor.getString(lat);
                     double d1 = Double.parseDouble(l1);
-                    int i1 = (int) d1;
                     String l2 = cursor.getString(lon);
                     double d2 = Double.parseDouble(l2);
-                    int i2 = (int) d2;
-
                     MainActivity.cor.put(d1,d2);
                 } while (cursor.moveToNext());
             }else {

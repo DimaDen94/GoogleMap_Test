@@ -4,8 +4,6 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -13,8 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +18,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
-import gmaps.dmitrydenezho.com.geoproj.DB;
 import gmaps.dmitrydenezho.com.geoproj.DialogForURL;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.MyLocationListener;
@@ -43,7 +31,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
 /**
  * Created by Dmitry on 26.12.2015.
  */
-public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks<Cursor> {
+public class FragmentMark extends AbstractTabFragment {
     static final int GALLERY_REQUEST = 1;
     Button btnForGallery;
     Button btnForURL;
@@ -134,7 +122,7 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().getSupportLoaderManager().getLoader(0).forceLoad();
+
     }
 
     LocationListener locationListener = new MyLocationListener(context,locationManager);
@@ -142,8 +130,6 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
 
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        imageView = (ImageView) getActivity().findViewById(R.id.img);
 
         switch(requestCode) {
             case GALLERY_REQUEST:
@@ -170,19 +156,6 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
     }
 
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 
 }

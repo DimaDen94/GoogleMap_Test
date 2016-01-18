@@ -7,18 +7,18 @@ import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 
-import gmaps.dmitrydenezho.com.geoproj.DBHelper;
+
 
 /**
  * Created by Dmitry on 16.01.2016.
  */
-public class AdapterLoader extends AsyncTask<String, String, Bitmap> {
+public class AdapterLoader extends AsyncTask<String, String, byte[]> {
     ImageView bmImage;
-    DBHelper dbHelper;
+
     Context context;
 
     @Override
-    protected Bitmap doInBackground(String... adress) {
+    protected byte[] doInBackground(String... adress) {
         return null;
     }
 

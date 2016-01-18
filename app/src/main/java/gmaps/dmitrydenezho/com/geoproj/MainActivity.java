@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import gmaps.dmitrydenezho.com.geoproj.adapters.TabPagerFragmentAdapter;
@@ -21,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     ViewPager viewPager;
     static DB db;
+
+
+
+    public static Map<Double,Double> cor;
     public static DB getDb() {
         return db;
     }
@@ -32,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         intTabs();
         db = new DB(this);
-
+        cor = new HashMap<Double,Double>();
     }
     private void intTabs() {
         TabPagerFragmentAdapter adapter = new TabPagerFragmentAdapter(getSupportFragmentManager(),this);

@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import gmaps.dmitrydenezho.com.geoproj.DB;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
@@ -111,6 +115,7 @@ public void onResume() {
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         scAdapter.swapCursor(cursor);
+
     }
 
     @Override
@@ -129,6 +134,25 @@ public void onResume() {
         @Override
         public Cursor loadInBackground() {
             Cursor cursor = db.getAllData();
+            if(cursor.moveToNext()){
+                int lat = cursor.getColumnIndex(DB.COLUMN_LAT);
+                int lon = cursor.getColumnIndex(DB.COLUMN_LON);
+
+                //int lon = Double.parseDouble(String.valueOf(cursor.getColumnIndex(DB.COLUMN_LON)));
+                do {
+                    String l1 = cursor.getString(lat);
+                    double d1 = Double.parseDouble(l1);
+                    int i1 = (int) d1;
+                    String l2 = cursor.getString(lon);
+                    double d2 = Double.parseDouble(l2);
+                    int i2 = (int) d2;
+
+                    MainActivity.cor.put(d1,d2);
+                } while (cursor.moveToNext());
+            }else {
+
+            }
+
             return cursor;
         }
 

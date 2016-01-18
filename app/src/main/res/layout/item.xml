@@ -12,7 +12,6 @@
             android:layout_width="100sp"
             android:layout_height="100sp"
             android:id="@+id/image"
-            android:src="@drawable/photo"
             android:layout_gravity="right"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"

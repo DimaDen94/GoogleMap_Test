@@ -4,6 +4,8 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -20,6 +22,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,7 +51,7 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
     ImageView imageView;
     Context context;
     LocationManager locationManager;
-
+    String url;
 
     public static Double latitude;
     public static Double longitude;
@@ -74,6 +82,7 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
 
     @Override
     public void onStart() {
+
         super.onStart();
             btnForGallery = (Button) getActivity().findViewById(R.id.btn_gallery);
             btnForGallery.setOnClickListener(new View.OnClickListener() {
@@ -86,12 +95,14 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
         });
 
         btnForURL = (Button) getActivity().findViewById(R.id.btn_url);
-      /*  btnForURL.setOnClickListener(new View.OnClickListener() {
+        btnForURL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                init();
                 dialog.show(getActivity().getFragmentManager(),"Dialog");
+
             }
-        });*/
+        });
         context = getActivity().getApplicationContext();
 
         dialog = new DialogForURL();
@@ -123,6 +134,7 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
     @Override
     public void onPause() {
         super.onPause();
+        getActivity().getSupportLoaderManager().getLoader(0).forceLoad();
     }
 
     LocationListener locationListener = new MyLocationListener(context,locationManager);
@@ -138,7 +150,6 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
                 if(resultCode == getActivity().RESULT_OK){
                         Uri selectedImage = imageReturnedIntent.getData();
                         MainActivity.getDb().addRec("" + latitude, "" + longitude, "" + dateFormat.format(new Date()), String.valueOf(selectedImage));
-                    getActivity().getSupportLoaderManager().getLoader(0).forceLoad();
                 }
         }
     }
@@ -148,9 +159,7 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
         tvLon.setText("Долгота =" + longitude);
         tvDate.setText("Время :" + dateFormat.format(new Date()));
     }
-    public static Date getDate() {
-        return date;
-    }
+
 
     public static Double getLongitude() {
         return longitude;
@@ -175,4 +184,5 @@ public class FragmentMark extends AbstractTabFragment implements LoaderCallbacks
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
 }

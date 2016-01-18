@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import gmaps.dmitrydenezho.com.geoproj.Loaders.ImageLoaderURL;
+import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentMark;
 
 
 /**
@@ -20,6 +21,12 @@ import gmaps.dmitrydenezho.com.geoproj.Loaders.ImageLoaderURL;
 public class DialogForURL extends DialogFragment implements OnClickListener {
     EditText et_dialog_url;
     Context context;
+
+
+
+
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getDialog().setTitle("Title!");
@@ -30,11 +37,10 @@ public class DialogForURL extends DialogFragment implements OnClickListener {
         return v;
     }
 
-
     @Override
     public void onClick(View v) {
-        new ImageLoaderURL((ImageView) getActivity().findViewById(R.id.img), context)
-                .execute(String.valueOf(et_dialog_url.getText()));
+
+        new ImageLoaderURL().execute(String.valueOf(et_dialog_url.getText()));
         dismiss();
     }
 

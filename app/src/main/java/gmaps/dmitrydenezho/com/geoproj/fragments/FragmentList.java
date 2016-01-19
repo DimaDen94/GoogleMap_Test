@@ -2,6 +2,7 @@ package gmaps.dmitrydenezho.com.geoproj.fragments;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -16,12 +17,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import gmaps.dmitrydenezho.com.geoproj.DB;
+import gmaps.dmitrydenezho.com.geoproj.InfoImg;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.R;
 
@@ -35,7 +44,8 @@ public class FragmentList extends AbstractTabFragment implements LoaderManager.L
     DB database;
     SimpleCursorAdapter scAdapter;
     ListView lvData;
-
+    public static ArrayList<InfoImg> cor;
+    TextView distance;
 
 
     public static FragmentList getInstance(Context context) {
@@ -68,7 +78,58 @@ public class FragmentList extends AbstractTabFragment implements LoaderManager.L
         registerForContextMenu(lvData);
         getActivity().getSupportLoaderManager().initLoader(0, null, this);
 
+
+
+        cor = MainActivity.cor;
+        float dis =0;
+
+        for (int i = 0; i < cor.size()-1; i++) {
+
+            double startPointLat = cor.get(i).getLat();
+            double startPointLon =cor.get(i).getLon();
+            double endPointLat = cor.get(i+1).getLat();
+            double endPointLon =cor.get(i+1).getLon();
+
+            String time = cor.get(i).getData();
+
+            SimpleDateFormat format = new SimpleDateFormat();
+            format.applyPattern("yyyy/MM/dd HH:mm:ss");
+            try {
+                Date past= format.parse(time);
+                Date now = new Date();
+                if(isSameDay(past,now)){
+                    dis = (float) (dis +CalculationDistanceByCoord(startPointLat, startPointLon, endPointLat, endPointLon));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        distance = (TextView) getActivity().findViewById(R.id.tv_distance);
+        distance.setText(""+dis);
+
     }
+
+    private static double CalculationDistanceByCoord(double startPointLat,double startPointLon,double endPointLat,double endPointLon){
+        float[] results = new float[1];
+        Location.distanceBetween(startPointLat, startPointLon, endPointLat, endPointLon, results);
+        return results[0];
+    }
+    public static boolean isSameDay(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            throw new IllegalArgumentException("The date must not be null");
+        }
+
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+        return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
+    }
+
 
     @Override
     public void onResume() {
@@ -110,7 +171,7 @@ public class FragmentList extends AbstractTabFragment implements LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new MyCursorLoader(context, database);
+        return new MainActivity.MyCursorLoader(context, database);
     }
 
     @Override
@@ -124,36 +185,6 @@ public class FragmentList extends AbstractTabFragment implements LoaderManager.L
 
     }
 
-    static class MyCursorLoader extends CursorLoader {
 
-        DB db;
-
-        public MyCursorLoader(Context context, DB db) {
-            super(context);
-            this.db = db;
-        }
-
-        @Override
-        public Cursor loadInBackground() {
-            Cursor cursor = db.getAllData();
-            if(cursor.moveToNext()){
-                int lat = cursor.getColumnIndex(DB.COLUMN_LAT);
-                int lon = cursor.getColumnIndex(DB.COLUMN_LON);
-
-                do {
-                    String l1 = cursor.getString(lat);
-                    double d1 = Double.parseDouble(l1);
-                    String l2 = cursor.getString(lon);
-                    double d2 = Double.parseDouble(l2);
-                    MainActivity.cor.put(d1,d2);
-                } while (cursor.moveToNext());
-            }else {
-
-            }
-
-            return cursor;
-        }
-
-    }
 
 }

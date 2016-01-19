@@ -20,9 +20,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import gmaps.dmitrydenezho.com.geoproj.DB;
+import gmaps.dmitrydenezho.com.geoproj.InfoImg;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.R;
 
@@ -32,7 +34,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
  */
 public class FragmentMap extends AbstractTabFragment {
     GoogleMap map;
-    public static Map<Double,Double> cor;
+    public static ArrayList<InfoImg> cor;
 
     Button update;
     private static final int LAYOUT = R.layout.map_fragment;
@@ -62,33 +64,38 @@ public class FragmentMap extends AbstractTabFragment {
             @Override
             public void onClick(View v) {
 
-                double maxlat = -180;
+                double maxlat = -85;
                 double maxlon = -180;
-                double minlat = 180;
+                double minlat = 85;
                 double minlon = 180;
-                for (Map.Entry<Double, Double> c : cor.entrySet()) {
+                for (InfoImg info: cor ) {
+
+
+                    double lat = info.getLat();
+                    double lon =info.getLon();
+                    String time = info.getData();
+                    String path = info.getPath();
+
 
                     map.addMarker(new MarkerOptions()
-                            .position(new LatLng(c.getKey(), c.getValue()))
-                            .title("Hello world"));
-                    if (maxlat < c.getKey()) {
-                        maxlat = c.getKey();
+                            .position(new LatLng(lat, lon))
+                            .title(time));
+                    if (maxlat < lat) {
+                        maxlat = lat;
                     }
-                    if (minlat > c.getKey()) {
-                        minlat = c.getKey();
+                    if (minlat > lat) {
+                        minlat = lat;
                     }
-
-
-                    if (maxlon < c.getValue()) {
-                        maxlon = c.getValue();
+                    if (maxlon < lon) {
+                        maxlon = lon;
                     }
-                    if (minlon > c.getValue()) {
-                        minlon = c.getValue();
+                    if (minlon > lon) {
+                        minlon = lon;
                     }
                 }
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(
                         new LatLngBounds(new LatLng(maxlat, minlon), new LatLng(maxlat, maxlon)),
-                        100);
+                        80);
                 map.animateCamera(cameraUpdate);
 
             }

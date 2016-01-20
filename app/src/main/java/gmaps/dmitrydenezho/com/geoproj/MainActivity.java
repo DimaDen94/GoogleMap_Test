@@ -2,24 +2,17 @@ package gmaps.dmitrydenezho.com.geoproj;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ListView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import gmaps.dmitrydenezho.com.geoproj.adapters.TabPagerFragmentAdapter;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MainActivity extends FragmentActivity{
 
     private TabLayout tabLayout;
     ViewPager viewPager;
@@ -39,8 +32,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         intTabs();
         db = new DB(this);
+        db.open();
         cor = new ArrayList<InfoImg>();
+
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
+
     private void intTabs() {
         TabPagerFragmentAdapter adapter = new TabPagerFragmentAdapter(getSupportFragmentManager(),this);
 
@@ -52,20 +54,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new MyCursorLoader(this, db);
-    }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 
     public static class MyCursorLoader extends CursorLoader {
 
@@ -79,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public Cursor loadInBackground() {
             Cursor cursor = db.getAllData();
+            cor.clear();
             if(cursor.moveToNext()){
                 int lat = cursor.getColumnIndex(DB.COLUMN_LAT);
                 int lon = cursor.getColumnIndex(DB.COLUMN_LON);
@@ -102,16 +92,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     infoImg.setPath(p);
                     infoImg.setData(t);
 
-                    boolean is = true;
-                    for (int i =0; i< cor.size(); i++){
-                        if(cor.get(i).equals(infoImg)){
-                            is = false;
-                        }
+                    cor.add(infoImg);
 
-                    }
-                    if(is){
-                        cor.add(infoImg);
-                    }
 
                 } while (cursor.moveToNext());
             }

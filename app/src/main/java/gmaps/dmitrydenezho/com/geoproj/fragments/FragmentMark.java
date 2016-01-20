@@ -3,7 +3,6 @@ package gmaps.dmitrydenezho.com.geoproj.fragments;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -13,13 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import gmaps.dmitrydenezho.com.geoproj.DB;
 import gmaps.dmitrydenezho.com.geoproj.DialogForURL;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.MyLocationListener;
@@ -29,25 +28,21 @@ import gmaps.dmitrydenezho.com.geoproj.R;
 /**
  * Created by Dmitry on 26.12.2015.
  */
-public class FragmentMark extends AbstractTabFragment {
+public class FragmentMark extends AbstractTabFragment{
     static final int GALLERY_REQUEST = 1;
     Button btnForGallery;
     Button btnForURL;
     DialogFragment dialog;
-    ImageView imageView;
     Context context;
     LocationManager locationManager;
-    String url;
-
     public static Double latitude;
     public static Double longitude;
-
     TextView tvLat;
-
+    DB database;
     TextView tvLon;
-    TextView tvDate;
+
     DateFormat dateFormat;
-    static Date date;
+
 
     private static final int LAYOUT = R.layout.mark_fragment;
 
@@ -74,12 +69,14 @@ public class FragmentMark extends AbstractTabFragment {
             btnForGallery.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View v) {
+                    init();
                     Intent imgPickerIntent = new Intent(Intent.ACTION_PICK);
                     imgPickerIntent.setType("image/*");
                     startActivityForResult(imgPickerIntent, GALLERY_REQUEST);
                 }
         });
 
+        dialog = new DialogForURL();
         btnForURL = (Button) getActivity().findViewById(R.id.btn_url);
         btnForURL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,19 +86,12 @@ public class FragmentMark extends AbstractTabFragment {
 
             }
         });
-        context = getActivity().getApplicationContext();
-
-        dialog = new DialogForURL();
-
         locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
-
         tvLat = (TextView) getActivity().findViewById(R.id.tvLocationLatitude);
         tvLon = (TextView) getActivity().findViewById(R.id.tvLocationLongitude);
-        tvDate= (TextView) getActivity().findViewById(R.id.tvLocationData);
 
         dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        date = new Date();
-
+        database= MainActivity.getDb();
 
 
     }
@@ -113,14 +103,6 @@ public class FragmentMark extends AbstractTabFragment {
         locationManager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER, 1000 * 10, 10,
                 locationListener);
-        init();
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
     }
 
     LocationListener locationListener = new MyLocationListener(context,locationManager);
@@ -139,9 +121,8 @@ public class FragmentMark extends AbstractTabFragment {
     }
 
     private void init(){
-        tvLat.setText("Широта = " + latitude);
-        tvLon.setText("Долгота =" + longitude);
-        tvDate.setText("Время :" + dateFormat.format(new Date()));
+        tvLat.setText("Lat = " + latitude);
+        tvLon.setText("Lon =" + longitude);
     }
 
 
@@ -152,7 +133,6 @@ public class FragmentMark extends AbstractTabFragment {
     public static Double getLatitude() {
         return latitude;
     }
-
 
 
 

@@ -30,7 +30,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:background="@color/primery" />
+            android:background="@drawable/sel"
+            android:allowUndo="true" />
     </RelativeLayout>
 
     <ListView
@@ -51,5 +52,6 @@
         android:layout_marginTop="10sp"
         android:layout_marginLeft="25sp"
         android:layout_marginRight="25sp"
-        android:layout_marginBottom="15sp" />
+        android:layout_marginBottom="15sp"
+        android:background="@drawable/sel" />
 </RelativeLayout>

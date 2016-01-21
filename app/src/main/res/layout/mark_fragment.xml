@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30sp"
         android:layout_marginBottom="10sp"
-        android:background="@color/primery" />
+        android:background="@drawable/sel" />
 
     <Button
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:id="@+id/btn_url"
         android:layout_below="@+id/btn_gallery"
         android:layout_centerHorizontal="true"
-        android:background="@color/primery" />
+        android:background="@drawable/sel" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -64,7 +64,7 @@
         android:layout_marginLeft="20sp"
         android:layout_marginTop="25sp"
         android:layout_marginRight="20sp"
-        android:background="@color/primery" />
+        android:background="@drawable/sel" />
 
 
 </RelativeLayout>

@@ -28,5 +28,6 @@
         android:text="готово"
         android:id="@+id/btn_dialog_ready"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15sp" />
+        android:layout_marginTop="15sp"
+        android:background="@drawable/sel" />
 </LinearLayout>

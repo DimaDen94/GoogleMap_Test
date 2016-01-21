@@ -16,15 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.concurrent.ExecutionException;
-
 import gmaps.dmitrydenezho.com.geoproj.DB;
-import gmaps.dmitrydenezho.com.geoproj.InfoImg;
 import gmaps.dmitrydenezho.com.geoproj.R;
 
 /**
@@ -35,20 +27,16 @@ DownloadImageTask task;
     private LayoutInflater mInflater;
     ImageView imageView;
     Context context;
-    public CustomCursorAdapter(Context context, Cursor c, int flags) {
+    int id;
+    public CustomCursorAdapter(Context context, Cursor c, int flags, int idLayout) {
         super(context, c, flags);
-this.context =context;
+        this.context =context;
+        this.id = idLayout;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
-        if (cursor.getPosition() % 2 == 1) {
-            view.setBackgroundColor(context.getResources().getColor(R.color.backGround));
-        } else {
-            view.setBackgroundColor(context.getResources().getColor(R.color.backGround));
-        }
 
 
         ((TextView) view.findViewById(R.id.tv1)).setText(cursor.getString(cursor.getColumnIndex(DB.COLUMN_LAT)));
@@ -58,7 +46,7 @@ this.context =context;
         imageView = (ImageView) view.findViewById(R.id.image);
         Uri path = Uri.parse(cursor.getString(cursor.getColumnIndex(DB.COLUMN_IMG)));
 
-        //imageView.setImageURI(path);
+
         task = new DownloadImageTask(imageView);
         task.execute(String.valueOf(path));
 
@@ -68,7 +56,7 @@ this.context =context;
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return mInflater.inflate(R.layout.itemlist, parent, false);
+        return mInflater.inflate(id, parent, false);
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -86,8 +74,7 @@ this.context =context;
 
                 BitmapFactory.Options op = new BitmapFactory.Options();
                 op.inPreferredConfig = Bitmap.Config.RGB_565; //без альфа-канала.
-                op.inSampleSize = 4; //чем больше число (1-16), тем хуже качество, но меньше потребление памяти. Качество 4 практически не заметно на маленьких значках.
-
+                op.inSampleSize = 4; //чем больше число (1-16),
                 mIcon11 = BitmapFactory.decodeFile(String.valueOf(imageFile), op);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
@@ -100,7 +87,7 @@ this.context =context;
         }
         private String getRealPathFromURI(Uri contentURI) {
             Cursor cursor = context.getContentResolver().query(contentURI, null, null, null, null);
-            if (cursor == null) { // Source is Dropbox or other similar local file path
+            if (cursor == null) {
                 return contentURI.getPath();
             } else {
                 cursor.moveToFirst();

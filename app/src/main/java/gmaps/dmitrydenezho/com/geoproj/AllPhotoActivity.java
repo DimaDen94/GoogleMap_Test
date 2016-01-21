@@ -1,30 +1,27 @@
 package gmaps.dmitrydenezho.com.geoproj;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
 import java.util.ArrayList;
-
 import gmaps.dmitrydenezho.com.geoproj.Loaders.MyCursorLoaderAll;
+import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
 
 public class AllPhotoActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int CM_DELETE_ID = 2;
     private static final int CM_OPEN_ID = 1;
     DB database;
-    public static SimpleCursorAdapter scAdapter;
+
+    CustomCursorAdapter myAdapter;
     GridView gridView;
 
     @Override
@@ -36,12 +33,11 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
         database.open();
 
         gridView = (GridView) findViewById(R.id.gridView);
-        String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_LAT, DB.COLUMN_LON, DB.COLUMN_DATA };
-        int[] to = new int[] { R.id.image, R.id.tv1, R.id.tv2, R.id.tv3};
-        scAdapter = new SimpleCursorAdapter(this, R.layout.itemgrid, null, from, to, 0);
+
+        myAdapter = new CustomCursorAdapter(this,database.getAllData(),1,R.layout.itemgrid);
 
         //настройка грид
-        gridView.setAdapter(scAdapter);
+        gridView.setAdapter(myAdapter);
         registerForContextMenu(gridView);
         gridView.setNumColumns(GridView.AUTO_FIT);
         gridView.setColumnWidth(200);
@@ -93,7 +89,7 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        scAdapter.swapCursor(data);
+        myAdapter.swapCursor(data);
     }
 
     @Override

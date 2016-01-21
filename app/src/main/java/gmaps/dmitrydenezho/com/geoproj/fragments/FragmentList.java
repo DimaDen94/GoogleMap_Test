@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -37,7 +38,6 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
     private static final int CM_OPEN_ID = 1;
     private static final int LAYOUT = R.layout.list_fragment;
     DB database;
-    public static SimpleCursorAdapter scAdapter;
     ListView lvData;
     public static ArrayList<InfoImg> cor;
     TextView distance;
@@ -69,14 +69,13 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
         super.onStart();
         database= MainActivity.getDb();
 
-        String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_LAT, DB.COLUMN_LON, DB.COLUMN_DATA };
-        int[] to = new int[] { R.id.image, R.id.tv1, R.id.tv2, R.id.tv3};
 
-        myAdapter = new CustomCursorAdapter(context,database.getAllData(),1);
 
-        scAdapter = new SimpleCursorAdapter(context, R.layout.itemlist, null, from, to, 0);
+        myAdapter = new CustomCursorAdapter(context,database.getAllData(),1,R.layout.itemlist);
+
+
         lvData = (ListView) getActivity().findViewById(R.id.image_list);
-       // lvData.setAdapter(scAdapter);
+
         lvData.setAdapter(myAdapter);
         registerForContextMenu(lvData);
         getActivity().getSupportLoaderManager().initLoader(1, null, this);
@@ -127,6 +126,7 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
             // извлекаем id записи и удаляем соответствующую запись в БД
             database.delRec(acmi.id);
             // получаем новый курсор с данными
+            Log.e("mylog", acmi.id + "");
             getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
 
             return true;
@@ -142,6 +142,7 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
             startActivity(intent);
             return true;
         }
+
         return super.onContextItemSelected(item);
     }
 
@@ -158,7 +159,7 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        scAdapter.swapCursor(cursor);
+        myAdapter.swapCursor(cursor);
 
     }
 

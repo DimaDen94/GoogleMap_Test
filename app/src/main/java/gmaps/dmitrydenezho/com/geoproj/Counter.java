@@ -13,8 +13,6 @@ import java.util.Date;
  */
 public class Counter {
 
-
-
     public Float doIt(ArrayList<InfoImg> cor) {
 
         float dis =0;

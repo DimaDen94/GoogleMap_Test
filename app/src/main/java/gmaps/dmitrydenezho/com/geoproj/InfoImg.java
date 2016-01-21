@@ -5,7 +5,6 @@ package gmaps.dmitrydenezho.com.geoproj;
  */
 public class InfoImg {
 
-
     String path;
     String data;
     double lat;

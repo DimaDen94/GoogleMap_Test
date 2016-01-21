@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import gmaps.dmitrydenezho.com.geoproj.fragments.AbstractTabFragment;
 import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentList;
 import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentMark;

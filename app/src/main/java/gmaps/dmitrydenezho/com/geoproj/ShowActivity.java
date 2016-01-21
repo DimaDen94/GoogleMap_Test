@@ -18,7 +18,6 @@ ImageView imageView;
         String key = intent.getStringExtra("img");
         imageView = (ImageView) findViewById(R.id.image);
         imageView.setImageURI(Uri.parse(key));
-
     }
 
 

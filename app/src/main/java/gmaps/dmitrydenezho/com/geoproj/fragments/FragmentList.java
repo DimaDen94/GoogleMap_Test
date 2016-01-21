@@ -17,9 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import gmaps.dmitrydenezho.com.geoproj.AllPhotoActivity;
 import gmaps.dmitrydenezho.com.geoproj.Counter;
 import gmaps.dmitrydenezho.com.geoproj.DB;
@@ -28,7 +26,6 @@ import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.R;
 import gmaps.dmitrydenezho.com.geoproj.ShowActivity;
 import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
-
 
 /**
  * Created by Dmitry on 26.12.2015.

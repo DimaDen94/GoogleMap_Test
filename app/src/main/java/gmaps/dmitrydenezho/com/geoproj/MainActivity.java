@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.view.ViewPager;
-
 import java.util.ArrayList;
 
 import gmaps.dmitrydenezho.com.geoproj.adapters.TabPagerFragmentAdapter;

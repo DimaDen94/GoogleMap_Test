@@ -12,13 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 /**
  * Created by Dmitry on 20.01.2016.
  */
 public class PointFinder {
     ArrayList<InfoImg> array;
-
 
     public void thisDayFinder(GoogleMap map,ArrayList<InfoImg> cor){
         array = new ArrayList<InfoImg>();

@@ -39,7 +39,6 @@ DownloadImageTask task;
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-
         ((TextView) view.findViewById(R.id.tv1)).setText(cursor.getString(cursor.getColumnIndex(DB.COLUMN_LAT)));
         ((TextView) view.findViewById(R.id.tv2)).setText(cursor.getString(cursor.getColumnIndex(DB.COLUMN_LON)));
         ((TextView) view.findViewById(R.id.tv3)).setText(cursor.getString(cursor.getColumnIndex(DB.COLUMN_DATA)));

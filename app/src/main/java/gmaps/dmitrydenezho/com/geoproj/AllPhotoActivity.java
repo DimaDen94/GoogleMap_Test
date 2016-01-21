@@ -28,7 +28,6 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_photo);
-
         database= new DB(this);
         database.open();
 

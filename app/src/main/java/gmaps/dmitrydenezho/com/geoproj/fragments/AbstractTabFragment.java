@@ -20,5 +20,4 @@ public abstract class AbstractTabFragment  extends Fragment {
     public void setContext(Context context) {
         this.context = context;
     }
-
 }

@@ -20,7 +20,7 @@ public class MainActivity extends FragmentActivity{
 
 
 
-    public static ArrayList<InfoImg> cor;
+    public static ArrayList<InfoImg> imgArrayList;
     public static DB getDb() {
         return db;
     }
@@ -33,7 +33,7 @@ public class MainActivity extends FragmentActivity{
         intTabs();
         db = new DB(this);
         db.open();
-        cor = new ArrayList<InfoImg>();
+        imgArrayList = new ArrayList<InfoImg>();
 
     }
 
@@ -67,18 +67,19 @@ public class MainActivity extends FragmentActivity{
 
         @Override
         public Cursor loadInBackground() {
-            Cursor cursor = db.getAllData();
-            cor.clear();
-            if(cursor.moveToNext()){
-                int lat = cursor.getColumnIndex(DB.COLUMN_LAT);
-                int lon = cursor.getColumnIndex(DB.COLUMN_LON);
-                int data = cursor.getColumnIndex(DB.COLUMN_DATA);
-                int path = cursor.getColumnIndex(DB.COLUMN_IMG);
+            Cursor cursorAll = db.getAllData();
+            Cursor cursor = db.getData();
+            imgArrayList.clear();
+            if(cursorAll.moveToNext()){
+                int lat = cursorAll.getColumnIndex(DB.COLUMN_LAT);
+                int lon = cursorAll.getColumnIndex(DB.COLUMN_LON);
+                int data = cursorAll.getColumnIndex(DB.COLUMN_DATA);
+                int path = cursorAll.getColumnIndex(DB.COLUMN_IMG);
 
 
                 do {
-                    String l1 = cursor.getString(lat);
-                    String l2 = cursor.getString(lon);
+                    String l1 = cursorAll.getString(lat);
+                    String l2 = cursorAll.getString(lon);
                     double d1 = Double.parseDouble(l1);
                     double d2 = Double.parseDouble(l2);
 
@@ -87,15 +88,15 @@ public class MainActivity extends FragmentActivity{
                     infoImg.setLat(d1);
                     infoImg.setLon(d2);
 
-                    String p = cursor.getString(path);
-                    String t = cursor.getString(data);
+                    String p = cursorAll.getString(path);
+                    String t = cursorAll.getString(data);
                     infoImg.setPath(p);
                     infoImg.setData(t);
 
-                    cor.add(infoImg);
+                    imgArrayList.add(infoImg);
 
 
-                } while (cursor.moveToNext());
+                } while (cursorAll.moveToNext());
             }
             return cursor;
         }

@@ -48,7 +48,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
     @Override
     public void onStart() {
         super.onStart();
-        cor = MainActivity.cor;
+        cor = MainActivity.imgArrayList;
         createMapView();
         allTime = (Button) getActivity().findViewById(R.id.btn_update_map_all_time);
         allTime.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +56,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
             public void onClick(View v) {
                 PointFinder finder = new PointFinder();
                 finder.finder(map, cor);
+
             }
         });
         thisDay = (Button) getActivity().findViewById(R.id.btn_update_map_this_day);
@@ -64,6 +65,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
             public void onClick(View v) {
                 PointFinder finder = new PointFinder();
                 finder.thisDayFinder(map,cor);
+
             }
         });
 

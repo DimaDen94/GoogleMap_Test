@@ -95,6 +95,7 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         }
         byte[] data = out.toByteArray();
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
         return bitmap;
     }
 

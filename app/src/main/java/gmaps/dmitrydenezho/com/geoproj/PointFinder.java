@@ -49,6 +49,7 @@ public class PointFinder {
         double maxlon = -180;
         double minlat = 85;
         double minlon = 180;
+        map.clear();
         for (InfoImg info : cor) {
 
             double lat = info.getLat();

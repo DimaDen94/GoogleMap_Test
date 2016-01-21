@@ -1,26 +1,28 @@
 package gmaps.dmitrydenezho.com.geoproj;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
 
+import java.util.ArrayList;
+
+import gmaps.dmitrydenezho.com.geoproj.Loaders.MyCursorLoaderAll;
+
 public class AllPhotoActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<Cursor> {
 
     DB database;
     public static SimpleCursorAdapter scAdapter;
     GridView gridView;
-
+    public static ArrayList<InfoImg> imgArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_photo);
-
+        imgArrayList = new ArrayList<InfoImg>();
         database= new DB(this);
         database.open();
 
@@ -40,7 +42,7 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new MyCursorLoader(this, database);
+        return new MyCursorLoaderAll(this, database);
     }
 
     @Override
@@ -52,20 +54,5 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
-    public static class MyCursorLoader extends CursorLoader {
 
-        DB db;
-
-        public MyCursorLoader(Context context, DB db) {
-            super(context);
-            this.db = db;
-        }
-
-        @Override
-        public Cursor loadInBackground() {
-            Cursor cursor = db.getAllData();
-            return cursor;
-        }
-
-    }
 }

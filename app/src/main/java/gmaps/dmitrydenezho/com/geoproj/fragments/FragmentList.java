@@ -79,7 +79,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
         calcDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cor = MainActivity.cor;
+                cor = MainActivity.imgArrayList;
                 Counter counter = new Counter();
                 dis = counter.doIt(cor);
                 intDis = (int) dis;
@@ -127,6 +127,12 @@ import gmaps.dmitrydenezho.com.geoproj.R;
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        DB thisDayDataBase = new DB(context);
+        thisDayDataBase.open();
+
+
+
+
         return new MainActivity.MyCursorLoader(context, database);
     }
 

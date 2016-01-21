@@ -45,7 +45,6 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
         gridView.setVerticalSpacing(5);
 
 
-
         getSupportLoaderManager().initLoader(2, null, this);
 
     }

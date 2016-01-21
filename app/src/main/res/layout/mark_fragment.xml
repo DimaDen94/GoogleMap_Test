@@ -14,7 +14,6 @@
         android:layout_marginTop="30sp"
         android:layout_marginBottom="10sp"
         android:background="@drawable/sel" />
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -15,4 +15,5 @@
     <string name="title_activity_show">ShowActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="btn_ready">готово</string>
 </resources>

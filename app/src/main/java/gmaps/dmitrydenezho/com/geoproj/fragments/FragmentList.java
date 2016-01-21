@@ -1,6 +1,7 @@
 package gmaps.dmitrydenezho.com.geoproj.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import gmaps.dmitrydenezho.com.geoproj.AllPhotoActivity;
 import gmaps.dmitrydenezho.com.geoproj.Counter;
 import gmaps.dmitrydenezho.com.geoproj.DB;
 import gmaps.dmitrydenezho.com.geoproj.InfoImg;
@@ -32,13 +34,14 @@ import gmaps.dmitrydenezho.com.geoproj.R;
     private static final int CM_DELETE_ID = 1;
     private static final int LAYOUT = R.layout.list_fragment;
     DB database;
-    SimpleCursorAdapter scAdapter;
+    public static SimpleCursorAdapter scAdapter;
     ListView lvData;
     public static ArrayList<InfoImg> cor;
     TextView distance;
     float dis;
     int intDis;
     Button calcDistance;
+    Button open;
 
     public static FragmentList getInstance(Context context) {
         Bundle args = new Bundle();
@@ -64,7 +67,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
 
         String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_LAT, DB.COLUMN_LON, DB.COLUMN_DATA };
         int[] to = new int[] { R.id.image, R.id.tv1, R.id.tv2, R.id.tv3};
-        scAdapter = new SimpleCursorAdapter(context, R.layout.item, null, from, to, 0);
+        scAdapter = new SimpleCursorAdapter(context, R.layout.itemlist, null, from, to, 0);
         lvData = (ListView) getActivity().findViewById(R.id.image_list);
         lvData.setAdapter(scAdapter);
         registerForContextMenu(lvData);
@@ -84,6 +87,15 @@ import gmaps.dmitrydenezho.com.geoproj.R;
                 getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
             }
         });
+        open =(Button) getActivity().findViewById(R.id.open);
+        open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AllPhotoActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
     }
     public void onCreateContextMenu(ContextMenu menu, View v,
@@ -92,6 +104,11 @@ import gmaps.dmitrydenezho.com.geoproj.R;
         menu.add(0, CM_DELETE_ID, 0, "remove item");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
+    }
 
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getItemId() == CM_DELETE_ID) {

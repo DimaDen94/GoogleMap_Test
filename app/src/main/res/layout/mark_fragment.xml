@@ -12,7 +12,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30sp"
-        android:layout_marginBottom="10sp" />
+        android:layout_marginBottom="10sp"
+        android:background="@color/primery" />
 
     <Button
         android:layout_width="match_parent"
@@ -20,7 +21,8 @@
         android:text="Upload a picture from the url"
         android:id="@+id/btn_url"
         android:layout_below="@+id/btn_gallery"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@color/primery" />
 
     <TextView
         android:layout_width="wrap_content"

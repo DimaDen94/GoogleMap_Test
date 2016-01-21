@@ -27,6 +27,7 @@ import gmaps.dmitrydenezho.com.geoproj.InfoImg;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.R;
 import gmaps.dmitrydenezho.com.geoproj.ShowActivity;
+import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
 
 
 /**
@@ -44,6 +45,7 @@ import gmaps.dmitrydenezho.com.geoproj.ShowActivity;
     int intDis;
     Button calcDistance;
     Button open;
+    CustomCursorAdapter myAdapter;
 
     public static FragmentList getInstance(Context context) {
         Bundle args = new Bundle();
@@ -69,9 +71,13 @@ import gmaps.dmitrydenezho.com.geoproj.ShowActivity;
 
         String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_LAT, DB.COLUMN_LON, DB.COLUMN_DATA };
         int[] to = new int[] { R.id.image, R.id.tv1, R.id.tv2, R.id.tv3};
+
+        myAdapter = new CustomCursorAdapter(context,database.getAllData(),1);
+
         scAdapter = new SimpleCursorAdapter(context, R.layout.itemlist, null, from, to, 0);
         lvData = (ListView) getActivity().findViewById(R.id.image_list);
-        lvData.setAdapter(scAdapter);
+       // lvData.setAdapter(scAdapter);
+        lvData.setAdapter(myAdapter);
         registerForContextMenu(lvData);
         getActivity().getSupportLoaderManager().initLoader(1, null, this);
 

@@ -74,16 +74,7 @@ public class DB {
         return mDB.query(DB_TABLE, null, selection, selectionArgs, null, null, null);
 
     }
-    public String getPath(long id) {
 
-
-
-       Cursor cursor =  mDB.query(DB_TABLE, new String[]{
-                        COLUMN_IMG}, COLUMN_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-        return cursor.getString(4);
-
-    }
 
     // добавить запись в DB_TABLE
     public void addRec(String latitude, String longitude, String data, String img) {

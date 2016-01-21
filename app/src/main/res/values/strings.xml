@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">GeoProj</string>
 
-    <string name="hello_world">Hello world!</string>
+
     <string name="action_settings">Settings</string>
-    <string name="tv_url_for_dialog">Введите URL изображения</string>
-    <string name="btn_koordinat">Получить координаты</string>
+    <string name="tv_url_for_dialog">Enter the URL of the image</string>
+    <string name="btn_koordinat">Get the coordinates</string>
     <string name="text_btn_map">Update</string>
     <string name="title_activity_all_photo">AllPhotoActivity</string>
+    <string name="btn_open">all pictures</string>
+    <string name="btn_map_all">all time</string>
+    <string name="btn_map_day">this day</string>
+    <string name="btn_gallery">Upload a picture from the gallery</string>
+    <string name="btn_url">Upload a picture from the url</string>
+    <string name="title_activity_show">ShowActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

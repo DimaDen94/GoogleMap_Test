@@ -49,7 +49,9 @@ import gmaps.dmitrydenezho.com.geoproj.R;
     public void onStart() {
         super.onStart();
         cor = MainActivity.imgArrayList;
+        //Создание карты
         createMapView();
+        //поиск фото за все время
         allTime = (Button) getActivity().findViewById(R.id.btn_update_map_all_time);
         allTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +61,7 @@ import gmaps.dmitrydenezho.com.geoproj.R;
 
             }
         });
+        //поиск фото за день
         thisDay = (Button) getActivity().findViewById(R.id.btn_update_map_this_day);
         thisDay.setOnClickListener(new View.OnClickListener() {
             @Override

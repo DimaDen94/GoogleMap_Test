@@ -47,7 +47,7 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
         File storagePath = new File(Environment.getExternalStorageDirectory(),"forGeo");
         storagePath.mkdirs();
-//you can create a new file name "test.jpg" in sdcard folder.
+
         String name = urldisplay.replaceAll("/","");
         File f = new File(storagePath + File.separator+ name.substring(7,27) + ".jpg");
 
@@ -56,12 +56,15 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
 
-// remember close de FileOutput
+
             fo.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-//write the bytes in file
+
+
+
+
         MainActivity.getDb().addRec(""+lat,""+lon,dateFormat.format(new Date()), String.valueOf(f));
 
         return f;
@@ -95,8 +98,27 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         }
         byte[] data = out.toByteArray();
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-
         return bitmap;
+    }
+    public static Bitmap compression(String url) {
+        URL m;
+        InputStream i = null;
+
+        try {
+            m = new URL(url);
+            i = (InputStream) m.getContent();
+
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BitmapFactory.Options op = new BitmapFactory.Options();
+        op.inPreferredConfig = Bitmap.Config.RGB_565; //без альфа-канала.
+        op.inSampleSize = 4; //чем больше число (1-16), тем хуже качество, но меньше потребление памяти. Качество 4 практически не заметно на маленьких значках.
+
+
+        return BitmapFactory.decodeStream(i, null, op);
     }
 
 }

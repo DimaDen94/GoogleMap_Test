@@ -7,7 +7,7 @@
     <Button
         android:layout_width="140sp"
         android:layout_height="wrap_content"
-        android:text="this day"
+        android:text="@string/btn_map_day"
         android:id="@+id/btn_update_map_this_day"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
@@ -18,7 +18,7 @@
     <Button
         android:layout_width="140sp"
         android:layout_height="wrap_content"
-        android:text="all time"
+        android:text="@string/btn_map_all"
         android:id="@+id/btn_update_map_all_time"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

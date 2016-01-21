@@ -37,6 +37,7 @@ public class FragmentMark extends AbstractTabFragment{
     static final int GALLERY_REQUEST = 1;
     Button btnForGallery;
     Button btnForURL;
+    Button getCoordinates;
     DialogFragment dialog;
     Context context;
     LocationManager locationManager;
@@ -70,25 +71,34 @@ public class FragmentMark extends AbstractTabFragment{
     public void onStart() {
 
         super.onStart();
+
+            //Загрузка из галереи
             btnForGallery = (Button) getActivity().findViewById(R.id.btn_gallery);
             btnForGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
+                @Override
                 public void onClick(View v) {
                     init();
                     Intent imgPickerIntent = new Intent(Intent.ACTION_PICK);
                     imgPickerIntent.setType("image/*");
                     startActivityForResult(imgPickerIntent, GALLERY_REQUEST);
                 }
-        });
+            });
+            //Загрузка по ссылке
+            btnForURL = (Button) getActivity().findViewById(R.id.btn_url);
+            btnForURL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    init();
+                    dialog.show(getActivity().getFragmentManager(), "Dialog");
 
-        dialog = new DialogForURL();
-        btnForURL = (Button) getActivity().findViewById(R.id.btn_url);
-        btnForURL.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+        //получение координат в поле
+        getCoordinates = (Button) getActivity().findViewById(R.id.getCoordinates);
+        getCoordinates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 init();
-                dialog.show(getActivity().getFragmentManager(),"Dialog");
-
             }
         });
         locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
@@ -98,6 +108,7 @@ public class FragmentMark extends AbstractTabFragment{
         dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         database= MainActivity.getDb();
 
+        dialog = new DialogForURL();
 
     }
     @Override
@@ -120,11 +131,14 @@ public class FragmentMark extends AbstractTabFragment{
             case GALLERY_REQUEST:
                 if(resultCode == getActivity().RESULT_OK){
                         Uri selectedImage = imageReturnedIntent.getData();
+
+
+
                         MainActivity.getDb().addRec("" + latitude, "" + longitude, "" + dateFormat.format(new Date()), String.valueOf(selectedImage));
                 }
         }
     }
-
+    //Заполнения поля с координатами
     private void init(){
         tvLat.setText("Lat = " + latitude);
         tvLon.setText("Lon =" + longitude);

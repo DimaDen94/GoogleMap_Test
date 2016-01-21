@@ -7,7 +7,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upload a picture from the gallery"
+        android:text="@string/btn_gallery"
         android:id="@+id/btn_gallery"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -18,40 +18,53 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upload a picture from the url"
+        android:text="@string/btn_url"
         android:id="@+id/btn_url"
         android:layout_below="@+id/btn_gallery"
         android:layout_centerHorizontal="true"
         android:background="@color/primery" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/tvLocationLatitude"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/btn_url"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/tvLocationLongitude"
-        android:layout_below="@+id/tvLocationLatitude"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20sp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/img"
         android:layout_below="@+id/btn_url"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="40sp"
+        android:layout_marginLeft="15sp"
+        android:layout_marginRight="15sp"
+        android:background="@color/distance"
+        android:id="@+id/linearLayout2">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/tvLocationLatitude"
+            android:layout_marginTop="15dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/tvLocationLongitude"
+            android:layout_marginTop="20sp"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_koordinat"
+        android:id="@+id/getCoordinates"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="25sp"
+        android:layout_marginRight="20sp"
+        android:background="@color/primery" />
 
 
 </RelativeLayout>

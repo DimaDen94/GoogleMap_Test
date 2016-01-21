@@ -26,12 +26,14 @@ import gmaps.dmitrydenezho.com.geoproj.DB;
 import gmaps.dmitrydenezho.com.geoproj.InfoImg;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.R;
+import gmaps.dmitrydenezho.com.geoproj.ShowActivity;
 
 
 /**
  * Created by Dmitry on 26.12.2015.
  */public class FragmentList extends AbstractTabFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int CM_DELETE_ID = 1;
+    private static final int CM_DELETE_ID = 2;
+    private static final int CM_OPEN_ID = 1;
     private static final int LAYOUT = R.layout.list_fragment;
     DB database;
     public static SimpleCursorAdapter scAdapter;
@@ -98,16 +100,17 @@ import gmaps.dmitrydenezho.com.geoproj.R;
         });
 
     }
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, CM_DELETE_ID, 0, "remove item");
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, CM_OPEN_ID, 0, "Open");
+        menu.add(1, CM_DELETE_ID, 0, "Remove item");
     }
 
     public boolean onContextItemSelected(MenuItem item) {
@@ -120,6 +123,17 @@ import gmaps.dmitrydenezho.com.geoproj.R;
             // получаем новый курсор с данными
             getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
 
+            return true;
+        }else if (item.getItemId() == CM_OPEN_ID){
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item
+                    .getMenuInfo();
+            ArrayList<InfoImg> infoImgs = MainActivity.imgArrayList;
+
+            InfoImg img = infoImgs.get(acmi.position);
+
+            Intent intent = new Intent(context, ShowActivity.class);
+            intent.putExtra("img" ,img.getPath());
+            startActivity(intent);
             return true;
         }
         return super.onContextItemSelected(item);

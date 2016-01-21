@@ -36,6 +36,10 @@
             android:name=".AllPhotoActivity"
             android:label="@string/title_activity_all_photo" >
         </activity>
+        <activity
+            android:name=".ShowActivity"
+            android:label="@string/title_activity_show" >
+        </activity>
     </application>
 
 </manifest>

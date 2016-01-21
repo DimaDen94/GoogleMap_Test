@@ -70,24 +70,19 @@ public class DB {
         String selection = COLUMN_DATA+" LIKE ?";
         String[] selectionArgs = new String[] { data.substring(0,10)+"%" };
 
-        String sFunc = COLUMN_DATA+" LIKE \"2%\"";
-        String[] columns = new String[] { sFunc };
 
         return mDB.query(DB_TABLE, null, selection, selectionArgs, null, null, null);
 
     }
-    private static boolean isSameDay(Date date1, Date date2) {
-        if (date1 == null || date2 == null) {
-            throw new IllegalArgumentException("The date must not be null");
-        }
+    public String getPath(long id) {
 
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(date1);
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(date2);
-        return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
-                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
+
+
+       Cursor cursor =  mDB.query(DB_TABLE, new String[]{
+                        COLUMN_IMG}, COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        return cursor.getString(4);
+
     }
 
     // добавить запись в DB_TABLE

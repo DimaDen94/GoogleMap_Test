@@ -44,7 +44,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="all pictures"
+        android:text="@string/btn_open"
         android:id="@+id/open"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

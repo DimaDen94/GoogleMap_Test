@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import java.util.ArrayList;
 
 public class MapActivity extends AppCompatActivity implements View.OnClickListener {
     GoogleMap map;
@@ -49,7 +48,7 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
         PointFinder finder = new PointFinder();
         switch (v.getId()){
             case R.id.btn_update_map_all_time:
-                finder.finder(map, database);
+                finder.finderAllDAy(map, database);
                 break;
             case R.id.btn_update_map_this_day:
                 finder.thisDayFinder(map, database);

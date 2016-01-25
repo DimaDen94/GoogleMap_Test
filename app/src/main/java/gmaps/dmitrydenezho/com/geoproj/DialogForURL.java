@@ -3,6 +3,7 @@ package gmaps.dmitrydenezho.com.geoproj;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,7 +36,8 @@ public class DialogForURL extends DialogFragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        if(TextUtils.isEmpty(et_dialog_url.getText().toString()))
+            return;
         new ImageLoaderURL().execute(String.valueOf(et_dialog_url.getText()));
         dismiss();
     }

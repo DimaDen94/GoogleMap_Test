@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="60sp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_photo"
+            android:src="@mipmap/photo"
+            android:contentDescription="@string/ic_camera"
+            android:minWidth="100sp"
+            android:minHeight="100sp"
+            android:nestedScrollingEnabled="true"
+            android:layout_marginRight="10sp"
+            android:background="@color/primery" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_gallery"
+            android:src="@mipmap/gallery"
+            android:minWidth="100sp"
+            android:minHeight="100sp"
+            android:layout_marginLeft="10sp"
+            android:background="@color/primery"
+            android:contentDescription="@string/im_btn_gallery" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="25sp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_map"
+            android:src="@mipmap/map"
+            android:minHeight="100sp"
+            android:minWidth="100sp"
+            android:layout_marginRight="10sp"
+            android:background="@color/primery"
+            android:contentDescription="@string/im_btn_map" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_link"
+            android:src="@mipmap/link"
+            android:minHeight="100sp"
+            android:minWidth="100sp"
+            android:layout_marginLeft="10sp"
+            android:background="@color/primery"
+            android:contentDescription="@string/im_btn_link" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

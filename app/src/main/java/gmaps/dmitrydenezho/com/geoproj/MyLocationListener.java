@@ -5,7 +5,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentMark;
+import gmaps.dmitrydenezho.com.geoproj.fragments.MainFragment;
 
 /**
  * Created by Dmitry on 16.01.2016.
@@ -44,11 +44,11 @@ public class MyLocationListener implements LocationListener {
         if (location == null)
             return;
         if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-            FragmentMark.longitude = location.getLongitude();
-            FragmentMark.latitude = location.getLatitude();
+            MainFragment.longitude = location.getLongitude();
+            MainFragment.latitude = location.getLatitude();
         } else if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
-            FragmentMark.longitude = location.getLongitude();
-            FragmentMark.latitude = location.getLatitude();
+            MainFragment.longitude = location.getLongitude();
+            MainFragment.latitude = location.getLatitude();
 
         }
     }

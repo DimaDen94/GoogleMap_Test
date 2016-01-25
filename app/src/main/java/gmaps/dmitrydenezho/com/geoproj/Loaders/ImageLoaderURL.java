@@ -1,14 +1,9 @@
 package gmaps.dmitrydenezho.com.geoproj.Loaders;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
-import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
-import gmaps.dmitrydenezho.com.geoproj.fragments.FragmentMark;
+import gmaps.dmitrydenezho.com.geoproj.fragments.MainFragment;
 
 
 /**
@@ -35,8 +30,8 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     double lon;
     protected File doInBackground(String... urls) {
         String urldisplay = urls[0];
-        double lat = FragmentMark.getLatitude();
-        double lon = FragmentMark.getLongitude();
+        double lat = MainFragment.getLatitude();
+        double lon = MainFragment.getLongitude();
 
 
         Bitmap bitmap = null;

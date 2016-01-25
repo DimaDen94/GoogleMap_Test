@@ -63,12 +63,11 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
     @Override
     public void onStart() {
         super.onStart();
+
+        //бурем бвзу данных
         database= MainActivity.getDb();
 
-
-
         myAdapter = new CustomCursorAdapter(context,database.getAllData(),1,R.layout.itemlist);
-
 
         lvData = (ListView) getActivity().findViewById(R.id.image_list);
 

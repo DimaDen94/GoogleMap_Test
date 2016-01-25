@@ -40,8 +40,7 @@
         <activity
             android:name=".ShowActivity"
             android:label="@string/title_activity_show" >
-        </activity>
-        <activity
+        </activity><activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map" >
         </activity>

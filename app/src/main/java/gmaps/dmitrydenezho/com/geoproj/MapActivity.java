@@ -11,15 +11,14 @@ import java.util.ArrayList;
 
 public class MapActivity extends AppCompatActivity implements View.OnClickListener {
     GoogleMap map;
-    public static ArrayList<InfoImg> cor;
-
+    DB database;
     Button allTime;
     Button thisDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        cor = MainActivity.imgArrayList;
+        database = MainActivity.getDb();
         //Создание карты
         createMapView();
         //поиск фото за все время
@@ -50,10 +49,10 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
         PointFinder finder = new PointFinder();
         switch (v.getId()){
             case R.id.btn_update_map_all_time:
-                finder.finder(map, cor);
+                finder.finder(map, database);
                 break;
             case R.id.btn_update_map_this_day:
-                finder.thisDayFinder(map, cor);
+                finder.thisDayFinder(map, database);
                 break;
         }
     }

@@ -17,4 +17,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="btn_ready">готово</string>
     <string name="title_activity_map">MapActivity</string>
+    <string name="ic_gallery">ic_gallery</string>
+    <string name="ic_camera">ic_camera</string>
+    <string name="im_btn_gallery">btn_gallery</string>
+    <string name="im_btn_map">btn_map</string>
+    <string name="im_btn_link">btn_link</string>
 </resources>

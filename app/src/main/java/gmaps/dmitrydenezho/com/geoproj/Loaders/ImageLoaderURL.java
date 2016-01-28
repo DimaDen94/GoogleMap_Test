@@ -57,9 +57,6 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             e.printStackTrace();
         }
 
-
-
-
         MainActivity.getDatabase().addRec(""+lat,""+lon,dateFormat.format(new Date()), String.valueOf(f));
 
         return f;

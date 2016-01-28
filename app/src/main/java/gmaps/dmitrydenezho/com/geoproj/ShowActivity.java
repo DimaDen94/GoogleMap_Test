@@ -19,6 +19,4 @@ ImageView imageView;
         imageView = (ImageView) findViewById(R.id.image);
         imageView.setImageURI(Uri.parse(key));
     }
-
-
 }

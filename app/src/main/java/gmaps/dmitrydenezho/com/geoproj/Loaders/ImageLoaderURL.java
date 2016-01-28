@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
-import gmaps.dmitrydenezho.com.geoproj.fragments.MainFragment;
+
 
 
 /**
@@ -30,8 +30,8 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     double lon;
     protected File doInBackground(String... urls) {
         String urldisplay = urls[0];
-        double lat = MainFragment.getLatitude();
-        double lon = MainFragment.getLongitude();
+        double lat = MainActivity.getLatitude();
+        double lon = MainActivity.getLongitude();
 
 
         Bitmap bitmap = null;
@@ -60,7 +60,7 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 
 
-        MainActivity.getDb().addRec(""+lat,""+lon,dateFormat.format(new Date()), String.valueOf(f));
+        MainActivity.getDatabase().addRec(""+lat,""+lon,dateFormat.format(new Date()), String.valueOf(f));
 
         return f;
     }

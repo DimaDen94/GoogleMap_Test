@@ -1,104 +1,133 @@
 package gmaps.dmitrydenezho.com.geoproj;
 
-import android.content.Context;
-import android.database.Cursor;
+import android.app.DialogFragment;
+import android.content.Intent;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.view.ViewPager;
-import java.util.ArrayList;
-
-import gmaps.dmitrydenezho.com.geoproj.adapters.TabPagerFragmentAdapter;
-
-public class MainActivity extends FragmentActivity{
-
-    private TabLayout tabLayout;
-    ViewPager viewPager;
-    static DB db;
+import android.view.View;
+import android.widget.ImageButton;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
+public class MainActivity extends FragmentActivity implements View.OnClickListener {
+    static final int GALLERY_REQUEST = 1;
+    ImageButton btnPhoto;
+    ImageButton btnForGallery;
+    ImageButton btnForLink;
+    ImageButton btnMap;
+    ImageButton btnView;
+    DialogFragment dialog;
+    LocationManager locationManager;
+    public static Double latitude;
+    public static Double longitude;
+    static DB database;
+    DateFormat dateFormat;
 
-    public static ArrayList<InfoImg> imgArrayList;
-    public static DB getDb() {
-        return db;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppDefault);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        intTabs();
-        db = new DB(this);
-        db.open();
-        imgArrayList = new ArrayList<InfoImg>();
+        //Загрузка из галереи
+        btnForGallery = (ImageButton) findViewById(R.id.btn_gallery);
+        btnForGallery.setOnClickListener(this);
+
+        //Загрузка по ссылке
+        btnForLink = (ImageButton) findViewById(R.id.btn_link);
+        btnForLink.setOnClickListener(this);
+
+        //Открыть карту
+        btnMap = (ImageButton) findViewById(R.id.btn_map);
+        btnMap.setOnClickListener(this);
+        //Сделать фото
+        btnPhoto = (ImageButton) findViewById(R.id.btn_photo);
+
+
+        //
+        btnView =(ImageButton) findViewById(R.id.btn_view);
+        btnView.setOnClickListener(this);
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+
+        //Берем базу данных
+        database = new DB(this);
+        database.open();
 
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        db.close();
+        //db.close();
     }
 
-    private void intTabs() {
-        TabPagerFragmentAdapter adapter = new TabPagerFragmentAdapter(getSupportFragmentManager(),this);
-
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(adapter);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                1000 * 10, 10, locationListener);
+        locationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER, 1000 * 10, 10,
+                locationListener);
     }
 
+    LocationListener locationListener = new MyLocationListener(this, locationManager);
 
+    public static DB getDatabase() {
+        return database;
+    }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-    public static class MyCursorLoader extends CursorLoader {
-
-        DB db;
-
-        public MyCursorLoader(Context context, DB db) {
-            super(context);
-            this.db = db;
+        switch (requestCode) {
+            case GALLERY_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    database.addRec("" + latitude, "" + longitude, "" + dateFormat.format(new Date()), String.valueOf(selectedImage));
+                }
         }
+    }
+    public static Double getLongitude() {
+        return longitude;
+    }
+    public static Double getLatitude() {
+        return latitude;
+    }
 
-        @Override
-        public Cursor loadInBackground() {
-            Cursor cursorAll = db.getAllData();
-            Cursor cursor = db.getData();
-            imgArrayList.clear();
-            if(cursorAll.moveToNext()){
-                int lat = cursorAll.getColumnIndex(DB.COLUMN_LAT);
-                int lon = cursorAll.getColumnIndex(DB.COLUMN_LON);
-                int data = cursorAll.getColumnIndex(DB.COLUMN_DATA);
-                int path = cursorAll.getColumnIndex(DB.COLUMN_IMG);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_photo:
 
+                break;
+            case R.id.btn_gallery:
+                Intent imgPickIntent = new Intent(Intent.ACTION_PICK);
+                imgPickIntent.setType("image/*");
+                startActivityForResult(imgPickIntent, GALLERY_REQUEST);
+                break;
 
-                do {
-                    String l1 = cursorAll.getString(lat);
-                    String l2 = cursorAll.getString(lon);
-                    double d1 = Double.parseDouble(l1);
-                    double d2 = Double.parseDouble(l2);
+            case R.id.btn_link:
+                dialog = new DialogForURL();
+                dialog.show(getFragmentManager(), "Dialog");
+                break;
 
-
-                    InfoImg infoImg = new InfoImg();
-                    infoImg.setLat(d1);
-                    infoImg.setLon(d2);
-
-                    String p = cursorAll.getString(path);
-                    String t = cursorAll.getString(data);
-                    infoImg.setPath(p);
-                    infoImg.setData(t);
-
-                    imgArrayList.add(infoImg);
-
-
-                } while (cursorAll.moveToNext());
-            }
-            return cursor;
+            case R.id.btn_map:
+                Intent intent = new Intent(this, MapActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_view:
+                Intent intentView = new Intent(this, ListActivity.class);
+                startActivity(intentView);
+                break;
         }
-
     }
 }

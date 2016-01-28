@@ -17,7 +17,7 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        database = MainActivity.getDb();
+        database = MainActivity.getDatabase();
         //Создание карты
         createMapView();
         //поиск фото за все время

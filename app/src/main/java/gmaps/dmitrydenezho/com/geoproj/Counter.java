@@ -1,6 +1,8 @@
 package gmaps.dmitrydenezho.com.geoproj;
 
+import android.database.Cursor;
 import android.location.Location;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,30 +15,26 @@ import java.util.Date;
  */
 public class Counter {
 
-    public Float doIt(ArrayList<InfoImg> cor) {
+    public Float doIt(Cursor cursor) {
 
         float dis =0;
 
-        for (int i = 0; i < cor.size()-1; i++) {
+        if(cursor.moveToNext()) {
+            int lat = cursor.getColumnIndex(DB.COLUMN_LAT);
+            int lon = cursor.getColumnIndex(DB.COLUMN_LON);
+            do {
 
-            double startPointLat = cor.get(i).getLat();
-            double startPointLon =cor.get(i).getLon();
-            double endPointLat = cor.get(i+1).getLat();
-            double endPointLon =cor.get(i+1).getLon();
+                double startPointLat = Double.parseDouble(cursor.getString(lat));
+                double startPointLon = Double.parseDouble(cursor.getString(lon));
 
-            String time = cor.get(i).getData();
-
-            SimpleDateFormat format = new SimpleDateFormat();
-            format.applyPattern("yyyy/MM/dd HH:mm:ss");
-            try {
-                Date past= format.parse(time);
-                Date now = new Date();
-                if(isSameDay(past,now)){
-                    dis = (float) (dis +CalculationDistanceByCoord(startPointLat, startPointLon, endPointLat, endPointLon));
+                if (cursor.moveToNext()) {
+                    double endPointLat = Double.parseDouble(cursor.getString(lat));
+                    double endPointLon = Double.parseDouble(cursor.getString(lon));
+                    dis = (float) (dis + CalculationDistanceByCoord(startPointLat, startPointLon, endPointLat, endPointLon));
+                    Log.e("my", dis+"");
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
+            } while (cursor.isAfterLast()==false);
         }
 
         return dis;
@@ -45,18 +43,5 @@ public class Counter {
         float[] results = new float[1];
         Location.distanceBetween(startPointLat, startPointLon, endPointLat, endPointLon, results);
         return results[0];
-    }
-    private static boolean isSameDay(Date date1, Date date2) {
-        if (date1 == null || date2 == null) {
-            throw new IllegalArgumentException("The date must not be null");
-        }
-
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(date1);
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(date2);
-        return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
-                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
     }
 }

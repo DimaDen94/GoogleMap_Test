@@ -15,15 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
-import java.util.ArrayList;
+
 import gmaps.dmitrydenezho.com.geoproj.AllPhotoActivity;
 import gmaps.dmitrydenezho.com.geoproj.Counter;
 import gmaps.dmitrydenezho.com.geoproj.DB;
-import gmaps.dmitrydenezho.com.geoproj.InfoImg;
 import gmaps.dmitrydenezho.com.geoproj.Loaders.MyCursorLoaderAll;
-import gmaps.dmitrydenezho.com.geoproj.Loaders.MyCursorLoaderDay;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.R;
 import gmaps.dmitrydenezho.com.geoproj.ShowActivity;
@@ -31,31 +30,27 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
 
 /**
  * Created by Dmitry on 26.12.2015.
- */public class FragmentList extends AbstractTabFragment implements LoaderManager.LoaderCallbacks<Cursor>{
+ */public class FragmentTotalList extends AbstractTabFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int CM_DELETE_ID = 2;
     private static final int CM_OPEN_ID = 1;
-    private static final int LAYOUT = R.layout.list_fragment;
     DB database;
-    ListView lvData;
-    TextView distance;
-    float dis;
-    int intDis;
-    Button calcDistance;
-    CustomCursorAdapter myAdapter;
 
-    public static FragmentList getInstance(Context context) {
+    CustomCursorAdapter myAdapter;
+    GridView gridView;
+
+    public static FragmentTotalList getInstance(Context context) {
         Bundle args = new Bundle();
-        FragmentList fragment = new FragmentList();
+        FragmentTotalList fragment = new FragmentTotalList();
         fragment.setArguments(args);
         fragment.setContext(context);
-        fragment.setTitle("list");
+        fragment.setTitle("total");
         return fragment;
 
     }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(LAYOUT,container,false);
+        view = inflater.inflate(R.layout.list_total_fragment,container,false);
 
         return view;
     }
@@ -64,36 +59,30 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
     public void onStart() {
         super.onStart();
 
-        //берем базу данных
-        database = MainActivity.getDatabase();
+        //бурем бвзу данных
+        database= MainActivity.getDatabase();
 
-        //создание списка
-        myAdapter = new CustomCursorAdapter(context,database.getData(),1,R.layout.itemlist);
-        lvData = (ListView) getActivity().findViewById(R.id.image_list);
-        lvData.setAdapter(myAdapter);
-        registerForContextMenu(lvData);
+        gridView = (GridView) getActivity().findViewById(R.id.gridView);
+
+        myAdapter = new CustomCursorAdapter(context,database.getAllData(),2,R.layout.itemgrid);
+
+        //настройка грид
+        gridView.setAdapter(myAdapter);
+        registerForContextMenu(gridView);
+        gridView.setNumColumns(GridView.AUTO_FIT);
+        gridView.setColumnWidth(200);
+        gridView.setHorizontalSpacing(5);
+        gridView.setVerticalSpacing(5);
 
 
+        getActivity().getSupportLoaderManager().initLoader(2, null, this);
 
-
-        calcDistance = (Button) getActivity().findViewById(R.id.calculate_path);
-        calcDistance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Counter counter = new Counter();
-                dis = counter.doIt(database.getData());
-                intDis = (int) dis;
-                initDistance();
-            }
-        });
-
-        getActivity().getSupportLoaderManager().initLoader(1, null, this);
     }
-
-public void initDistance(){
-    distance = (TextView) getActivity().findViewById(R.id.tv_distance);
-    distance.setText("Today, you have passed "+intDis+" m");
-}
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getSupportLoaderManager().getLoader(2).forceLoad();
+    }
 
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -111,8 +100,8 @@ public void initDistance(){
             database.delRec(acmi.id);
             Log.e("mylog", acmi.id + "");
             // получаем новый курсор с данными
-            getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
             getActivity().getSupportLoaderManager().getLoader(2).forceLoad();
+            getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
 
             return true;
         }else if (item.getItemId() == CM_OPEN_ID){
@@ -132,7 +121,7 @@ public void initDistance(){
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new MyCursorLoaderDay(context, database);
+        return new MyCursorLoaderAll(context, database);
     }
 
     @Override
@@ -144,4 +133,6 @@ public void initDistance(){
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+
 }

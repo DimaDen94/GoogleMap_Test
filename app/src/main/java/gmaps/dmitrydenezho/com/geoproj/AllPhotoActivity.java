@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import java.util.ArrayList;
+
 import gmaps.dmitrydenezho.com.geoproj.Loaders.MyCursorLoaderAll;
 import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
 
@@ -27,7 +27,7 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_photo);
+        setContentView(R.layout.list_total_fragment);
         database= new DB(this);
         database.open();
 
@@ -68,12 +68,12 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
         }else if (item.getItemId() == CM_OPEN_ID){
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item
                     .getMenuInfo();
-            ArrayList<InfoImg> infoImgs = MainActivity.imgArrayList;
 
-            InfoImg img = infoImgs.get(acmi.position);
+
+
 
             Intent intent = new Intent(this, ShowActivity.class);
-            intent.putExtra("img" ,img.getPath());
+
             startActivity(intent);
             return true;
         }

@@ -1,7 +1,6 @@
 package gmaps.dmitrydenezho.com.geoproj.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,25 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import gmaps.dmitrydenezho.com.geoproj.AllPhotoActivity;
-import gmaps.dmitrydenezho.com.geoproj.Counter;
 import gmaps.dmitrydenezho.com.geoproj.DB;
 import gmaps.dmitrydenezho.com.geoproj.Loaders.MyCursorLoaderAll;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.R;
-import gmaps.dmitrydenezho.com.geoproj.ShowActivity;
 import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
 
 /**
  * Created by Dmitry on 26.12.2015.
  */public class FragmentTotalList extends AbstractTabFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int CM_DELETE_ID = 2;
-    private static final int CM_OPEN_ID = 1;
+    private static final int CM_DELETE_ID = 1;
     DB database;
 
     CustomCursorAdapter myAdapter;
@@ -87,8 +79,7 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, CM_OPEN_ID, 0, "Open");
-        menu.add(1, CM_DELETE_ID, 0, "Remove item");
+        menu.add(0, CM_DELETE_ID, 0, "Remove item");
     }
 
     public boolean onContextItemSelected(MenuItem item) {
@@ -103,17 +94,6 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
             getActivity().getSupportLoaderManager().getLoader(2).forceLoad();
             getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
 
-            return true;
-        }else if (item.getItemId() == CM_OPEN_ID){
-            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item
-                    .getMenuInfo();
-
-
-
-
-            Intent intent = new Intent(context, ShowActivity.class);
-
-            startActivity(intent);
             return true;
         }
         return super.onContextItemSelected(item);

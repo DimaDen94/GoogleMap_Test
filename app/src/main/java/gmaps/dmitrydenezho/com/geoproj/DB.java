@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -68,6 +70,14 @@ public class DB {
 
 
         return mDB.query(DB_TABLE, null, selection, selectionArgs, null, null, null);
+
+    }
+    public Cursor getPath(long id){
+        String selection = COLUMN_ID+" LIKE ?";
+        String[] selectionArgs = new String[] { id+"" };
+
+
+        return  mDB.query(DB_TABLE, null, selection, selectionArgs, null, null, null);
 
     }
 

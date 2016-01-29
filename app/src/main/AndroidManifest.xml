@@ -38,7 +38,7 @@
             android:label="@string/title_activity_all_photo" >
         </activity>
         <activity
-            android:name=".ShowActivity"
+            android:name=".GalleryActivity"
             android:label="@string/title_activity_show" >
         </activity>
         <activity

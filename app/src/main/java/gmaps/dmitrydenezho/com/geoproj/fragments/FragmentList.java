@@ -17,16 +17,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import java.util.ArrayList;
-import gmaps.dmitrydenezho.com.geoproj.AllPhotoActivity;
+
 import gmaps.dmitrydenezho.com.geoproj.Counter;
 import gmaps.dmitrydenezho.com.geoproj.DB;
-import gmaps.dmitrydenezho.com.geoproj.InfoImg;
-import gmaps.dmitrydenezho.com.geoproj.Loaders.MyCursorLoaderAll;
 import gmaps.dmitrydenezho.com.geoproj.Loaders.MyCursorLoaderDay;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 import gmaps.dmitrydenezho.com.geoproj.R;
-import gmaps.dmitrydenezho.com.geoproj.ShowActivity;
+import gmaps.dmitrydenezho.com.geoproj.GalleryActivity;
 import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
 
 /**
@@ -41,6 +38,7 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
     float dis;
     int intDis;
     Button calcDistance;
+    Button openGallery;
     CustomCursorAdapter myAdapter;
 
     public static FragmentList getInstance(Context context) {
@@ -87,6 +85,15 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
             }
         });
 
+        openGallery = (Button) getActivity().findViewById(R.id.btn_open_gallery);
+        openGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,GalleryActivity.class);
+                startActivity(intent);
+            }
+        });
+
         getActivity().getSupportLoaderManager().initLoader(1, null, this);
     }
 
@@ -119,10 +126,7 @@ public void initDistance(){
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item
                     .getMenuInfo();
 
-
-
-
-            Intent intent = new Intent(context, ShowActivity.class);
+            Intent intent = new Intent(context, GalleryActivity.class);
 
             startActivity(intent);
             return true;

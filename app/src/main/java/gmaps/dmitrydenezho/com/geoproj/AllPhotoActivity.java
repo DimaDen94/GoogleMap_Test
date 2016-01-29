@@ -72,7 +72,7 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
 
 
 
-            Intent intent = new Intent(this, ShowActivity.class);
+            Intent intent = new Intent(this, GalleryActivity.class);
 
             startActivity(intent);
             return true;

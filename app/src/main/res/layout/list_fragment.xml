@@ -36,8 +36,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/image_list"
-        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/btn_open_gallery"
+        android:layout_below="@+id/linearLayout" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_open_gallery"
+        android:id="@+id/btn_open_gallery"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_marginRight="30sp"
+        android:layout_marginLeft="30sp"
+        android:background="@drawable/sel"
+        android:layout_marginBottom="10sp"
+        android:layout_marginTop="10sp" />
 
 </RelativeLayout>

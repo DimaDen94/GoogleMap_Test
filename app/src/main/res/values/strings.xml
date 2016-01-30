@@ -13,7 +13,8 @@
     <string name="btn_gallery">Upload a picture from the gallery</string>
     <string name="btn_url">Upload a picture from the url</string>
     <string name="title_activity_show">ShowActivity</string>
-
+    <string name="view_navigation_open">open</string>
+    <string name="view_navigation_close">clode</string>
     <string name="hello_world">Hello world!</string>
     <string name="btn_ready">готово</string>
     <string name="title_activity_map">MapActivity</string>

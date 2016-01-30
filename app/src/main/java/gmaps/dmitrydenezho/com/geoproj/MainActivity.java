@@ -6,7 +6,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import java.text.DateFormat;
@@ -27,8 +32,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public static Double longitude;
     static DB database;
     DateFormat dateFormat;
-
-
+    Toolbar toolbar;
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //Берем базу данных
         database = new DB(this);
         database.open();
+
+        //иницыализация Toolbar
+        initToolbar();
+
+        //инициализация NavigationView
+        initNavigationView();
 
     }
     @Override
@@ -129,5 +140,38 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(intentView);
                 break;
         }
+    }
+
+    private void initToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                return false;
+            }
+        });
+        toolbar.inflateMenu(R.menu.menu_main);
+    }
+    private void initNavigationView() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.view_navigation_open,R.string.view_navigation_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+
+        NavigationView navigationView = (NavigationView)findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                drawer.closeDrawers();
+                switch (menuItem.getItemId()) {
+                    case R.id.notification:
+
+                        break;
+                }
+                return true;
+            }
+        });
     }
 }

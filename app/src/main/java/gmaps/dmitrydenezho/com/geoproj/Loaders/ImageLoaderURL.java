@@ -43,8 +43,8 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         File storagePath = new File(Environment.getExternalStorageDirectory(),"forGeo");
         storagePath.mkdirs();
 
-        String name = urldisplay.replaceAll("/","");
-        File f = new File(storagePath + File.separator+ name.substring(7,27) + ".jpg");
+        File f = new File(storagePath + "/" + "geo_"
+                + System.currentTimeMillis() + ".jpg");
 
         try {
             f.createNewFile();

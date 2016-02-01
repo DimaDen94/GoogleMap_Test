@@ -6,14 +6,19 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +26,7 @@ import java.util.Date;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
     static final int GALLERY_REQUEST = 1;
+    final int REQUEST_CODE_PHOTO = 2;
     ImageButton btnPhoto;
     ImageButton btnForGallery;
     ImageButton btnForLink;
@@ -53,7 +59,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         btnMap.setOnClickListener(this);
         //Сделать фото
         btnPhoto = (ImageButton) findViewById(R.id.btn_photo);
-
+        btnPhoto.setOnClickListener(this);
 
         //
         btnView =(ImageButton) findViewById(R.id.btn_view);
@@ -65,6 +71,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //Берем базу данных
         database = new DB(this);
         database.open();
+
+
+
+
+
+
+
 
         //иницыализация Toolbar
         initToolbar();
@@ -95,16 +108,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         return database;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         switch (requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    Uri selectedImage = intent.getData();
                     database.addRec("" + latitude, "" + longitude, "" + dateFormat.format(new Date()), String.valueOf(selectedImage));
                 }
+                break;
+            case REQUEST_CODE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = intent.getData();
+
+                    database.addRec("" + latitude, "" + longitude, "" + dateFormat.format(new Date()), String.valueOf(selectedImage));
+
+                }
+                break;
         }
     }
     public static Double getLongitude() {
@@ -119,6 +140,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_photo:
 
+                Intent intentPhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intentPhoto, REQUEST_CODE_PHOTO);
+
                 break;
             case R.id.btn_gallery:
                 Intent imgPickIntent = new Intent(Intent.ACTION_PICK);
@@ -132,8 +156,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
 
             case R.id.btn_map:
-                Intent intent = new Intent(this, MapActivity.class);
-                startActivity(intent);
+                Intent intentMap = new Intent(this, MapActivity.class);
+                startActivity(intentMap);
                 break;
             case R.id.btn_view:
                 Intent intentView = new Intent(this, ListActivity.class);
@@ -141,7 +165,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
-
+    private Uri generateFileUri() {
+        File file = null;
+        File storagePath = new File(Environment.getExternalStorageDirectory(),"forGeo");
+        file = new File(storagePath.getPath() + "/" + "photo_"
+                        + System.currentTimeMillis() + ".jpg");
+        return Uri.fromFile(file);
+    }
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);

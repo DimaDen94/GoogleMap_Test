@@ -1,5 +1,6 @@
 package gmaps.dmitrydenezho.com.geoproj.Loaders;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import gmaps.dmitrydenezho.com.geoproj.DB;
 import gmaps.dmitrydenezho.com.geoproj.MainActivity;
 
 
@@ -26,15 +28,14 @@ import gmaps.dmitrydenezho.com.geoproj.MainActivity;
  */
 public class ImageLoaderURL extends AsyncTask<String, String, File> {
 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    double lat;
-    double lon;
+
     protected File doInBackground(String... urls) {
         String urldisplay = urls[0];
         double lat = MainActivity.getLatitude();
         double lon = MainActivity.getLongitude();
 
 
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         bitmap = loadImageFromUrl(urldisplay);
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -56,7 +57,6 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         MainActivity.getDatabase().addRec(""+lat,""+lon,dateFormat.format(new Date()), String.valueOf(f));
 
         return f;
@@ -68,15 +68,15 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public static Bitmap loadImageFromUrl(String url) {
         URL m;
-        InputStream i = null;
-        BufferedInputStream bis = null;
+        InputStream i;
+        BufferedInputStream bis;
         ByteArrayOutputStream out =null;
         try {
             m = new URL(url);
             i = (InputStream) m.getContent();
             bis = new BufferedInputStream(i,1024 * 8);
             out = new ByteArrayOutputStream();
-            int len=0;
+            int len;
             byte[] buffer = new byte[1024];
             while((len = bis.read(buffer)) != -1){
                 out.write(buffer, 0, len);

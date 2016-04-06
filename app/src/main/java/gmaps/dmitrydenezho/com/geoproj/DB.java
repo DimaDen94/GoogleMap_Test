@@ -5,9 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,66 +15,61 @@ import java.util.Date;
  */
 public class DB {
 
-    private static final String DB_NAME = "imgDB";
-    private static final int DB_VERSION = 1;
-    private static final String DB_TABLE = "img";
 
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_LAT = "lat";
-    public static final String COLUMN_LON = "lon";
-    public static final String COLUMN_DATA = "data";
-    public static final String COLUMN_IMG = "img";
-
-    private static final String DB_CREATE =
-            "create table " + DB_TABLE + "(" +
-                    COLUMN_ID + " integer primary key autoincrement, " +
-                    COLUMN_LAT + " text, " +COLUMN_LON + " text, " +COLUMN_DATA + " text, " +
-                    COLUMN_IMG + " text" +
-                    ");";
-
-    private final Context mCtx;
+    private static DB instance = null;
+    private static Context context;
 
 
     private DBHelper mDBHelper;
     private SQLiteDatabase mDB;
 
-    public DB(Context ctx) {
-        mCtx = ctx;
+    private DB(Context context) {
+        DB.context = context;
+    }
+
+    public static DB getInstance(Context context) {
+        if (instance == null) {
+            instance = new DB(context);
+        }
+        return instance;
+
     }
 
     // открыть подключение
     public void open() {
-        mDBHelper = new DBHelper(mCtx, DB_NAME, null, DB_VERSION);
+        mDBHelper = DBHelper.getInstance(context);
         mDB = mDBHelper.getWritableDatabase();
     }
 
     // закрыть подключение
     public void close() {
-        if (mDBHelper!=null) mDBHelper.close();
+        if (mDBHelper != null) mDBHelper.close();
     }
 
     // получить все данные из таблицы DB_TABLE
     public Cursor getAllData() {
-        return mDB.query(DB_TABLE, null, null, null, null, null, null);
+        return mDB.query(DBHelper.DB_TABLE, null, null, null, null, null, null);
     }
+
     public Cursor getData() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
         String data = dateFormat.format(new Date());
 
-        String selection = COLUMN_DATA+" LIKE ?";
-        String[] selectionArgs = new String[] { data.substring(0,10)+"%" };
+        String selection = DBHelper.COLUMN_DATA + " LIKE ?";
+        String[] selectionArgs = new String[]{data.substring(0, 10) + "%"};
 
 
-        return mDB.query(DB_TABLE, null, selection, selectionArgs, null, null, null);
+        return mDB.query(DBHelper.DB_TABLE, null, selection, selectionArgs, null, null, null);
 
     }
-    public Cursor getPath(long id){
-        String selection = COLUMN_ID+" LIKE ?";
-        String[] selectionArgs = new String[] { id+"" };
+
+    public Cursor getPath(long id) {
+        String selection = DBHelper.COLUMN_ID + " LIKE ?";
+        String[] selectionArgs = new String[]{id + ""};
 
 
-        return  mDB.query(DB_TABLE, null, selection, selectionArgs, null, null, null);
+        return mDB.query(DBHelper.DB_TABLE, null, selection, selectionArgs, null, null, null);
 
     }
 
@@ -85,34 +77,16 @@ public class DB {
     // добавить запись в DB_TABLE
     public void addRec(String latitude, String longitude, String data, String img) {
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_LAT, latitude);
-        cv.put(COLUMN_LON, longitude);
-        cv.put(COLUMN_DATA, data);
-        cv.put(COLUMN_IMG, img);
-        mDB.insert(DB_TABLE, null, cv);
+        cv.put(DBHelper.COLUMN_LAT, latitude);
+        cv.put(DBHelper.COLUMN_LON, longitude);
+        cv.put(DBHelper.COLUMN_DATA, data);
+        cv.put(DBHelper.COLUMN_IMG, img);
+        mDB.insert(DBHelper.DB_TABLE, null, cv);
     }
 
     // удалить запись из DB_TABLE
     public void delRec(long id) {
-        mDB.delete(DB_TABLE, COLUMN_ID + " = " + id, null);
+        mDB.delete(DBHelper.DB_TABLE, DBHelper.COLUMN_ID + " = " + id, null);
     }
 
-    // класс по созданию и управлению БД
-    private class DBHelper extends SQLiteOpenHelper {
-
-        public DBHelper(Context context, String name, CursorFactory factory,
-                        int version) {
-            super(context, name, factory, version);
-        }
-
-        // создаем и заполняем БД
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(DB_CREATE);
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        }
-    }
 }

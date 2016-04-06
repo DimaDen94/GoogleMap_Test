@@ -28,7 +28,7 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_total_fragment);
-        database= new DB(this);
+        database= DB.getInstance(this);
         database.open();
 
         gridView = (GridView) findViewById(R.id.gridView);
@@ -47,6 +47,19 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
         getSupportLoaderManager().initLoader(2, null, this);
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        database.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        database.open();
+    }
+
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -95,9 +108,5 @@ public class AllPhotoActivity extends AppCompatActivity  implements LoaderManage
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        database.close();
-    }
+
 }

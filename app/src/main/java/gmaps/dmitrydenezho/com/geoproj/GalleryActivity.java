@@ -18,7 +18,8 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        database = MainActivity.getDatabase();
+        database = DB.getInstance(this);
+        database.open();
 
         gallery = (Gallery)findViewById(R.id.gallery);
 

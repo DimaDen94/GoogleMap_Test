@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import gmaps.dmitrydenezho.com.geoproj.DB;
+import gmaps.dmitrydenezho.com.geoproj.DBHelper;
 import gmaps.dmitrydenezho.com.geoproj.R;
 
 /**
@@ -41,10 +42,10 @@ public class CustomCursorAdapterForBigPictures extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
 
-        ((TextView) view.findViewById(R.id.tv3)).setText(cursor.getString(cursor.getColumnIndex(DB.COLUMN_DATA)));
+        ((TextView) view.findViewById(R.id.tv3)).setText(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_DATA)));
 
         imageView = (ImageView) view.findViewById(R.id.image);
-        Uri path = Uri.parse(cursor.getString(cursor.getColumnIndex(DB.COLUMN_IMG)));
+        Uri path = Uri.parse(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_IMG)));
 
         Picasso.with(context).load(path).resize(w, h). centerInside().into(imageView);
 

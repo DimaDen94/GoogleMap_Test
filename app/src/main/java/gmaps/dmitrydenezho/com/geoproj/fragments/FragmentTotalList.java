@@ -52,7 +52,8 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
         super.onStart();
 
         //бурем бвзу данных
-        database= MainActivity.getDatabase();
+        database= DB.getInstance(context);
+        database.open();
 
         gridView = (GridView) getActivity().findViewById(R.id.gridView);
 
@@ -73,9 +74,16 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
     @Override
     public void onResume() {
         super.onResume();
+        database.open();
         getActivity().getSupportLoaderManager().getLoader(2).forceLoad();
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        database.close();
+    }
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);

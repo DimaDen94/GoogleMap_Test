@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import gmaps.dmitrydenezho.com.geoproj.DB;
+import gmaps.dmitrydenezho.com.geoproj.DBHelper;
 import gmaps.dmitrydenezho.com.geoproj.R;
 
 /**
@@ -42,12 +43,12 @@ public class CustomCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        ((TextView) view.findViewById(R.id.tv1)).setText(cursor.getString(cursor.getColumnIndex(DB.COLUMN_LAT)));
-        ((TextView) view.findViewById(R.id.tv2)).setText(cursor.getString(cursor.getColumnIndex(DB.COLUMN_LON)));
-        ((TextView) view.findViewById(R.id.tv3)).setText(cursor.getString(cursor.getColumnIndex(DB.COLUMN_DATA)));
+        ((TextView) view.findViewById(R.id.tv1)).setText(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_LAT)));
+        ((TextView) view.findViewById(R.id.tv2)).setText(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_LON)));
+        ((TextView) view.findViewById(R.id.tv3)).setText(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_DATA)));
 
         imageView = (ImageView) view.findViewById(R.id.image);
-        Uri path = Uri.parse(cursor.getString(cursor.getColumnIndex(DB.COLUMN_IMG)));
+        Uri path = Uri.parse(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_IMG)));
 
 
         Picasso.with(context).load(path).resize(200, 200). centerInside().into(imageView);

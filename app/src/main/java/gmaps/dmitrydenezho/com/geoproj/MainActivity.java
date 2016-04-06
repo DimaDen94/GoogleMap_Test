@@ -2,23 +2,21 @@ package gmaps.dmitrydenezho.com.geoproj;
 
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,7 +24,7 @@ import java.util.Date;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
     static final int GALLERY_REQUEST = 1;
-    final int REQUEST_CODE_PHOTO = 2;
+    final int PHOTO_REQUEST = 2;
     ImageButton btnPhoto;
     ImageButton btnForGallery;
     ImageButton btnForLink;
@@ -34,9 +32,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ImageButton btnView;
     DialogFragment dialog;
     LocationManager locationManager;
-    public static Double latitude;
-    public static Double longitude;
+    static Double latitude;
+    static Double longitude;
     static DB database;
+
+    public static Double getLatitude() {
+        return latitude;
+    }
+
+    public static Double getLongitude() {
+        return longitude;
+    }
+
+    public static DB getDatabase() {
+        return database;
+    }
+
     DateFormat dateFormat;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -69,7 +80,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 
         //Берем базу данных
-        database = new DB(this);
+        database = DB.getInstance(this);
         database.open();
 
 
@@ -102,11 +113,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 locationListener);
     }
 
-    LocationListener locationListener = new MyLocationListener(this, locationManager);
-
-    public static DB getDatabase() {
-        return database;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        locationManager.removeUpdates(locationListener);
     }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -118,7 +130,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     database.addRec("" + latitude, "" + longitude, "" + dateFormat.format(new Date()), String.valueOf(selectedImage));
                 }
                 break;
-            case REQUEST_CODE_PHOTO:
+            case PHOTO_REQUEST:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = intent.getData();
 
@@ -128,12 +140,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
-    public static Double getLongitude() {
-        return longitude;
-    }
-    public static Double getLatitude() {
-        return latitude;
-    }
 
     @Override
     public void onClick(View v) {
@@ -141,7 +147,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.btn_photo:
 
                 Intent intentPhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentPhoto, REQUEST_CODE_PHOTO);
+                startActivityForResult(intentPhoto, PHOTO_REQUEST);
 
                 break;
             case R.id.btn_gallery:
@@ -165,13 +171,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
-    private Uri generateFileUri() {
-        File file = null;
-        File storagePath = new File(Environment.getExternalStorageDirectory(),"forGeo");
-        file = new File(storagePath.getPath() + "/" + "photo_"
-                        + System.currentTimeMillis() + ".jpg");
-        return Uri.fromFile(file);
-    }
+
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
@@ -203,5 +203,39 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 return true;
             }
         });
+    }
+
+    //работа с LocationListener
+
+    private LocationListener locationListener = new LocationListener() {
+
+        @Override
+        public void onLocationChanged(Location location) {
+            showLocation(location);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+    };
+    private void showLocation(Location location) {
+        if (location == null)
+            return;
+        if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        } else if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+
+        }
     }
 }

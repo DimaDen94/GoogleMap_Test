@@ -63,7 +63,8 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
         super.onStart();
 
         //берем базу данных
-        database = MainActivity.getDatabase();
+        database = DB.getInstance(context);
+        database.open();
 
         //создание списка
         myAdapter = new CustomCursorAdapter(context,database.getData(),1,R.layout.itemlist);
@@ -97,7 +98,19 @@ import gmaps.dmitrydenezho.com.geoproj.adapters.CustomCursorAdapter;
         getActivity().getSupportLoaderManager().initLoader(1, null, this);
     }
 
-public void initDistance(){
+    @Override
+    public void onResume() {
+        super.onResume();
+        database.open();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        database.close();
+    }
+
+    public void initDistance(){
     distance = (TextView) getActivity().findViewById(R.id.tv_distance);
     distance.setText("Today, you have passed "+intDis+" m");
 }

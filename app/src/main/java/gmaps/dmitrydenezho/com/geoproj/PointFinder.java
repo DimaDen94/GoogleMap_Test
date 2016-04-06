@@ -36,9 +36,9 @@ public class PointFinder {
 
         format.applyPattern("yyyy/MM/dd HH:mm:ss");
         if(cursor.moveToNext()) {
-            int lat = cursor.getColumnIndex(DB.COLUMN_LAT);
-            int lon = cursor.getColumnIndex(DB.COLUMN_LON);
-            int data = cursor.getColumnIndex(DB.COLUMN_DATA);
+            int lat = cursor.getColumnIndex(DBHelper.COLUMN_LAT);
+            int lon = cursor.getColumnIndex(DBHelper.COLUMN_LON);
+            int data = cursor.getColumnIndex(DBHelper.COLUMN_DATA);
 
             do {
                 String l1 = cursor.getString(lat);

@@ -20,8 +20,8 @@ public class Counter {
         float dis =0;
 
         if(cursor.moveToNext()) {
-            int lat = cursor.getColumnIndex(DB.COLUMN_LAT);
-            int lon = cursor.getColumnIndex(DB.COLUMN_LON);
+            int lat = cursor.getColumnIndex(DBHelper.COLUMN_LAT);
+            int lon = cursor.getColumnIndex(DBHelper.COLUMN_LON);
             do {
 
                 double startPointLat = Double.parseDouble(cursor.getString(lat));

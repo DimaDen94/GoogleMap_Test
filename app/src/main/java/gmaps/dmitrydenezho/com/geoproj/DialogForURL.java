@@ -17,18 +17,12 @@ import gmaps.dmitrydenezho.com.geoproj.Loaders.ImageLoaderURL;
  */
 public class DialogForURL extends DialogFragment implements OnClickListener {
     EditText et_dialog_url;
-    Context context;
-
-
-
-
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getDialog().setTitle("Title!");
         View v = inflater.inflate(R.layout.dialog, null);
-        context = getActivity().getApplicationContext();
+
         et_dialog_url = (EditText) v.findViewById(R.id.et_dialog_url);
         v.findViewById(R.id.btn_dialog_ready).setOnClickListener(this);
         return v;
